@@ -224,7 +224,9 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolledPastHero(window.scrollY > window.innerHeight * 0.75);
+      // Hide again near the bottom so the bar never covers the footer, which has its own actions.
+      const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 160;
+      setScrolledPastHero(window.scrollY > window.innerHeight * 0.75 && !nearBottom);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
