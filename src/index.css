@@ -473,6 +473,30 @@ h1, h2, h3, h4, h5, h6 {
   animation-fill-mode: forwards;
 }
 
+/* ── About: chat bubbles & tricolour ── */
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-bubble-in {
+  animation: bubbleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes drawAcross {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.revealed .animate-draw-across {
+  animation: drawAcross 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.animate-draw-across {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
@@ -487,8 +511,14 @@ h1, h2, h3, h4, h5, h6 {
   .animate-ripple,
   .animate-text-reveal,
   .animate-ken-burns,
-  .animate-reel-progress {
+  .animate-reel-progress,
+  .animate-bubble-in,
+  .revealed .animate-draw-across {
     animation: none !important;
+  }
+
+  .animate-draw-across {
+    transform: none;
   }
 
   .reveal-on-scroll {

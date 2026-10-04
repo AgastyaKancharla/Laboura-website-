@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageId } from "../components/Navbar";
 import { ImageStreamHero, StreamImage, CorridorPath } from "@/components/ui/image-stream-hero";
 import { IndustryReel } from "../components/IndustryReel";
+import { Reveal } from "../components/Reveal";
 import {
   PhoneCall,
   ShieldCheck,
@@ -33,36 +34,6 @@ import {
 interface HomePageProps {
   onNavigate: (page: PageId) => void;
   onOpenCallModal: (role?: "general" | "contractor" | "worker" | "investor") => void;
-}
-
-/* ── Scroll Reveal Hook ─────────────────────────────────────── */
-function useReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("revealed");
-          io.unobserve(el);
-        }
-      },
-      { threshold: 0.08 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return ref;
-}
-
-function Reveal({ children, className = "", delay = "" }: { children: React.ReactNode; className?: string; delay?: string }) {
-  const ref = useReveal();
-  return (
-    <div ref={ref} className={`reveal-on-scroll ${delay} ${className}`}>
-      {children}
-    </div>
-  );
 }
 
 /* ── 20 COMPLETELY DISTINCT SERVICE IMAGES (10 Left, 10 Right - Zero Duplicates) ── */
