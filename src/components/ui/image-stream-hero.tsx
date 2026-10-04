@@ -54,7 +54,12 @@ const PATH: Required<CorridorPath> = {
 };
 
 /** Sample the path once so the CSS keyframes trace the real curve. */
-function keyframes(dir: 1 | -1, name: string, p: Required<CorridorPath>) {
+function keyframes(
+  dir: 1 | -1,
+  name: string,
+  p: Required<CorridorPath>,
+  vertical: boolean,
+) {
   const steps: string[] = [];
   for (let s = 0; s <= p.stops; s++) {
     const u = s / p.stops;
@@ -65,11 +70,12 @@ function keyframes(dir: 1 | -1, name: string, p: Required<CorridorPath>) {
     const rail =
       p.railExit - (p.railExit - p.railBirth) * Math.pow(1 - u, p.fan);
     const turn = p.turnBirth + (p.turnExit - p.turnBirth) * u;
-    steps.push(
-      `${(u * 100).toFixed(2)}%{transform:translate3d(${(dir * rail).toFixed(
-        2,
-      )}cqw,0,${z.toFixed(2)}cqw) rotateY(${(-dir * turn).toFixed(2)}deg)}`,
-    );
+    // Vertical rails travel in cqh so cards always exit at the top/bottom edge,
+    // while size and depth stay in cqw so cards always fit the width.
+    const move = vertical
+      ? `translate3d(0,${(dir * rail).toFixed(2)}cqh,${z.toFixed(2)}cqw) rotateX(${(dir * turn).toFixed(2)}deg)`
+      : `translate3d(${(dir * rail).toFixed(2)}cqw,0,${z.toFixed(2)}cqw) rotateY(${(-dir * turn).toFixed(2)}deg)`;
+    steps.push(`${(u * 100).toFixed(2)}%{transform:${move}}`);
   }
   return `@keyframes ${name}{${steps.join("")}}`;
 }
@@ -95,6 +101,8 @@ export type ImageStreamHeroProps = {
   axis?: number;
   /** Override corridor geometry. */
   path?: CorridorPath;
+  /** "vertical" runs the rails up and down instead of left and right. @default "horizontal" */
+  orientation?: "horizontal" | "vertical";
   children?: React.ReactNode;
   className?: string;
 };
@@ -107,6 +115,7 @@ export function ImageStreamHero({
   speed = 18,
   axis = 50,
   path,
+  orientation = "horizontal",
   children,
   className,
   ...props
@@ -117,12 +126,13 @@ export function ImageStreamHero({
   const card = `ish-c-${id}`;
 
   const p = React.useMemo(() => ({ ...PATH, ...path }), [path]);
+  const vertical = orientation === "vertical";
 
   const css = React.useMemo(
     () =>
-      `${keyframes(1, right, p)}${keyframes(-1, left, p)}` +
+      `${keyframes(1, right, p, vertical)}${keyframes(-1, left, p, vertical)}` +
       `@media(prefers-reduced-motion:reduce){.${card}{animation-play-state:paused}}`,
-    [right, left, card, p],
+    [right, left, card, p, vertical],
   );
 
   // Derive distinct left and right image lists so no image is mirrored or duplicated
@@ -148,7 +158,7 @@ export function ImageStreamHero({
     <div
       className={cn("relative overflow-hidden", className)}
       {...props}
-      style={{ containerType: "inline-size", ...props.style }}
+      style={{ containerType: vertical ? "size" : "inline-size", ...props.style }}
     >
       <style>{css}</style>
 

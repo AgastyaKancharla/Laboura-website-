@@ -462,7 +462,8 @@ h1, h2, h3, h4, h5, h6 {
   .animate-float-slow,
   .animate-aura,
   .animate-pulse-beacon,
-  .animate-ripple {
+  .animate-ripple,
+  .animate-text-reveal {
     animation: none !important;
   }
 

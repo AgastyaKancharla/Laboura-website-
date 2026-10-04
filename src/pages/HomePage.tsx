@@ -288,30 +288,31 @@ const testimonials = [
 ];
 
 /* ── Custom Corridor Geometry for Mobile vs Desktop Cinematic Scale ── */
-// Portrait phones: rails open slowly and cards stay nearly face-on, so each
-// photo grows to most of the screen height before it leaves the frame.
+// Portrait phones run the rails vertically: landscape photos stream up and down
+// out of the title, spaced so each card shows roughly half its photo in flight.
 const MOBILE_PATH: CorridorPath = {
   perspective: 60,
-  cardWidth: 56,
-  cardHeight: 84,
+  cardWidth: 78,
+  cardHeight: 52,
   cardRadius: 2.4,
-  birthHeight: 10,
-  exitHeight: 240,
-  railBirth: -12,
-  railExit: 46,
+  birthHeight: 6,
+  exitHeight: 150,
+  railBirth: 8,
+  railExit: 50,
   fan: 1.8,
-  turnBirth: 2,
-  turnExit: 14,
+  turnBirth: 0,
+  turnExit: 4,
   stops: 32,
 };
 
-// Corridor lengths scale with width, so squat viewports (short phones, small
-// tablets) need smaller cards or the corridor turns into a wall of panels.
+// Squat viewports (short phones, small tablets) have less height to travel, so
+// cards get smaller and the rails spread wider to keep the same reveal.
 const MOBILE_COMPACT_PATH: CorridorPath = {
   ...MOBILE_PATH,
-  birthHeight: 6.5,
-  exitHeight: 150,
-  railExit: 44,
+  birthHeight: 4.5,
+  exitHeight: 115,
+  railBirth: 10,
+  railExit: 70,
 };
 
 const DESKTOP_PATH: CorridorPath = {
@@ -415,51 +416,67 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
 
         {/* ── MOBILE LAYOUT (< md) ── */}
         {/* The section sits under the fixed 5rem navbar, so 100svh fills exactly one screen. */}
-        <div className="md:hidden relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-white flex flex-col">
-          {/* Corridor fills the space between navbar and copy, vanishing point centred in it. */}
-          <div className="relative flex-1 min-h-0 mt-20 pointer-events-none z-0">
+        <div className="md:hidden relative w-full h-[100svh] min-h-[560px] overflow-hidden bg-[#0A1628]">
+          <div className="absolute inset-x-0 top-20 bottom-0 pointer-events-none">
             <ImageStreamHero
               leftImages={LEFT_SERVICE_IMAGES}
               rightImages={RIGHT_SERVICE_IMAGES}
-              cards={10}
+              orientation="vertical"
+              cards={compactCorridor ? 9 : 10}
               speed={16}
-              axis={48}
+              axis={50}
               path={compactCorridor ? MOBILE_COMPACT_PATH : MOBILE_PATH}
-              className="absolute inset-0 overflow-visible"
+              className="absolute inset-0"
             />
+
+            {/* Title-card glow: darkens only the band behind the copy so photos stay vivid above and below. */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_34%_at_50%_50%,rgba(10,22,40,0.94)_0%,rgba(10,22,40,0.8)_45%,rgba(10,22,40,0)_100%)]" />
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#0A1628]/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0A1628]/80 to-transparent" />
           </div>
 
-          {/* The fade lives on the text block so it tracks the copy's height on any screen. */}
-          <div className="relative z-10 -mt-24 flex flex-col items-center text-center px-5 pt-24 pb-[max(1.75rem,env(safe-area-inset-bottom))] bg-gradient-to-t from-white from-[78%] via-white/85 to-transparent">
-            <div className="[@media(max-height:700px)]:hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-blue-200 text-[11px] font-bold uppercase tracking-wider text-[#0066FF] shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-pulse" />
+          <div className="relative z-10 h-full pt-20 flex flex-col items-center justify-center text-center px-5">
+            <div
+              className="animate-text-reveal [@media(max-height:700px)]:hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[11px] font-bold uppercase tracking-[0.18em] text-[#00D4FF]"
+              style={{ animationFillMode: "both", animationDelay: "150ms" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF] animate-pulse" />
               <span>On-Demand Frontline Network</span>
             </div>
 
-            <h1 className="mt-3 text-[2.6rem] sm:text-5xl font-black tracking-tight leading-[1.02] text-[#0A1628] font-['Montserrat'] select-none">
+            <h1
+              className="animate-text-reveal mt-4 text-[2.55rem] sm:text-5xl font-black tracking-tight leading-[1.04] text-white font-['Montserrat'] select-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+              style={{ animationFillMode: "both", animationDelay: "350ms" }}
+            >
               Future is<br />
-              built on Laboura.
+              built on <span className="text-gradient-blue">Laboura.</span>
             </h1>
 
-            <p className="mt-3 text-[15px] text-gray-600 font-medium max-w-[21rem] leading-relaxed text-balance">
+            <p
+              className="animate-text-reveal mt-3 text-[15px] text-slate-200 font-medium max-w-[20rem] leading-relaxed text-balance drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]"
+              style={{ animationFillMode: "both", animationDelay: "600ms" }}
+            >
               Verified frontline staff from your own neighbourhood, across 10 essential industries.
             </p>
 
-            <div className="mt-6 w-full max-w-sm flex flex-col gap-2.5">
+            <div
+              className="animate-text-reveal mt-6 w-full max-w-sm grid grid-cols-2 gap-2.5"
+              style={{ animationFillMode: "both", animationDelay: "850ms" }}
+            >
               <button
                 onClick={() => onOpenCallModal("general")}
-                className="w-full py-4 px-5 rounded-full font-bold text-[15px] text-white bg-[#0A1628] hover:bg-[#0066FF] shadow-lg shadow-black/20 flex items-center justify-center gap-2 active:scale-95 transition-all"
+                className="py-3.5 px-4 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#0066FF] to-[#00B4FF] shadow-lg shadow-[#0066FF]/40 flex items-center justify-center gap-2 active:scale-95 transition-transform"
               >
-                <PhoneCall className="w-4 h-4 text-[#00D4FF]" />
+                <PhoneCall className="w-4 h-4" />
                 <span>Call Dispatch</span>
               </button>
 
               <button
                 onClick={() => onNavigate("about")}
-                className="w-full py-3.5 px-5 rounded-full font-bold text-sm text-gray-800 bg-white border border-gray-300 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
+                className="py-3.5 px-4 rounded-full font-bold text-sm text-white bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
               >
                 <span>Know More</span>
-                <ArrowRight className="w-4 h-4 text-[#0066FF]" />
+                <ArrowRight className="w-4 h-4 text-[#00D4FF]" />
               </button>
             </div>
           </div>
