@@ -30,7 +30,7 @@ interface ForWorkersPageProps {
 function GuaranteeSeal() {
   const ring = "JOB OR YOUR MONEY BACK • JOB OR YOUR MONEY BACK • ";
   return (
-    <div className="relative w-[170px] h-[170px] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] mx-auto">
+    <div className="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] mx-auto">
       <div aria-hidden className="absolute inset-0 rounded-full bg-emerald-400/30 blur-3xl" />
       <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full animate-[spin_24s_linear_infinite] motion-reduce:animate-none" aria-hidden>
         <defs>
@@ -47,7 +47,7 @@ function GuaranteeSeal() {
         <span className="mt-1 text-white font-black font-['Montserrat'] text-sm sm:text-base leading-tight">
           Full refund
         </span>
-        <span className="hidden sm:block text-[11px] font-semibold text-emerald-50 leading-tight px-4">
+        <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-50 leading-tight px-4">
           if we can't place you
         </span>
       </div>
@@ -64,7 +64,7 @@ function WorkPicker({ onApply }: { onApply: () => void }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
-      <div className="-mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-14 md:px-14 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-3 overflow-x-auto lg:overflow-visible pb-1 [scrollbar-width:none]" role="group" aria-label="Choose a kind of work">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-3" role="group" aria-label="Choose a kind of work">
         {INDUSTRIES.map((i) => {
           const active = i.id === selected;
           return (
@@ -72,23 +72,23 @@ function WorkPicker({ onApply }: { onApply: () => void }) {
               key={i.id}
               onClick={() => setSelected(i.id)}
               aria-pressed={active}
-              className={`shrink-0 flex flex-row 2xl:flex-col items-center 2xl:items-start gap-2 lg:gap-3 px-3 py-2 lg:p-3 2xl:p-4 rounded-full lg:rounded-2xl border text-left transition-all ${
+              className={`flex flex-col items-start gap-3 p-4 rounded-2xl border text-left transition-all ${
                 active
                   ? "bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/25 -translate-y-0.5"
                   : "bg-white border-gray-200 text-[#0A1628] hover:border-emerald-400"
               }`}
             >
-              <span className={`w-7 h-7 lg:w-10 lg:h-10 rounded-full lg:rounded-xl flex items-center justify-center ${active ? "bg-white/20" : "bg-emerald-50 text-emerald-600"}`}>
-                <i.icon className="w-4 h-4 lg:w-5 lg:h-5" />
+              <span className={`w-10 h-10 rounded-xl flex items-center justify-center ${active ? "bg-white/20" : "bg-emerald-50 text-emerald-600"}`}>
+                <i.icon className="w-5 h-5" />
               </span>
-              <span className="text-xs lg:text-sm font-bold leading-tight whitespace-nowrap lg:whitespace-normal">{i.title}</span>
+              <span className="text-sm font-bold leading-tight">{i.title}</span>
             </button>
           );
         })}
       </div>
 
       <div key={ind.id} className="lg:sticky lg:top-28 rounded-[28px] overflow-hidden bg-white border border-gray-200 shadow-[0_30px_60px_-30px_rgba(10,22,40,0.3)]">
-        <div className="relative h-32 sm:h-48 lg:h-32 xl:h-48 overflow-hidden">
+        <div className="relative h-52 sm:h-64 overflow-hidden">
           <img src={ind.img} alt="" className="w-full h-full object-cover animate-ken-burns" loading="lazy" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
           <div className="absolute bottom-5 left-6 right-6">
@@ -100,7 +100,7 @@ function WorkPicker({ onApply }: { onApply: () => void }) {
             </h3>
           </div>
         </div>
-        <div className="p-5 sm:p-7 lg:p-5 xl:p-7">
+        <div className="p-6 sm:p-8">
           <div className="text-xs font-bold uppercase tracking-wider text-gray-400">Jobs you can apply for</div>
           <div className="mt-3 flex flex-wrap gap-2">
             {roles.map((r, idx) => (
@@ -113,8 +113,8 @@ function WorkPicker({ onApply }: { onApply: () => void }) {
               </span>
             ))}
           </div>
-          <div className="mt-4 text-xs font-bold uppercase tracking-wider text-gray-400">What the work involves</div>
-          <ul className="mt-3 space-y-2 xl:space-y-2.5">
+          <div className="mt-6 text-xs font-bold uppercase tracking-wider text-gray-400">What the work involves</div>
+          <ul className="mt-3 space-y-2.5">
             {ind.tasks.map((t, idx) => (
               <li
                 key={t}
@@ -130,7 +130,7 @@ function WorkPicker({ onApply }: { onApply: () => void }) {
           </ul>
           <button
             onClick={onApply}
-            className="mt-4 xl:mt-5 w-full py-3 xl:py-3.5 rounded-2xl bg-[#0A1628] hover:bg-emerald-600 text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors"
+            className="mt-7 w-full py-4 rounded-2xl bg-[#0A1628] hover:bg-emerald-600 text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors"
           >
             Apply for {ind.title.toLowerCase()} work
             <ArrowRight className="w-4 h-4" />
@@ -174,7 +174,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
       {/* ═══ HERO ═══ */}
       <section className="relative overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white border-b border-gray-100">
         <div aria-hidden className="absolute -top-32 -right-32 w-[36rem] h-[36rem] rounded-full bg-emerald-200/40 blur-[120px] animate-aura" />
-        <div className="relative px-5 sm:px-8 md:px-14 lg:px-20 pt-24 sm:pt-28 pb-10 lg:pt-36 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+        <div className="relative px-5 sm:px-8 md:px-14 lg:px-20 pt-32 pb-20 lg:pt-36 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
           <div>
             <div
               className="animate-text-reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-emerald-200 text-xs font-bold uppercase tracking-wider text-emerald-700 shadow-sm"
@@ -220,7 +220,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
               </a>
             </div>
             <ul
-              className="animate-text-reveal mt-10 hidden sm:grid grid-cols-3 gap-3 max-w-2xl"
+              className="animate-text-reveal mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl"
               style={{ animationFillMode: "both", animationDelay: "650ms" }}
             >
               {[
@@ -243,7 +243,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
       </section>
 
       {/* ═══ JOURNEY ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 bg-white border-b border-gray-100">
+      <section className="py-20 sm:py-28 bg-white border-b border-gray-100">
         <Reveal className="px-5 sm:px-8 md:px-14 lg:px-20 max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">How it works</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
@@ -251,7 +251,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
           </h2>
         </Reveal>
 
-        <div className="mt-8 md:mt-12 flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible scroll-snap-x px-5 sm:px-8 md:px-14 lg:px-20 pb-4">
+        <div className="mt-12 flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible scroll-snap-x px-5 sm:px-8 md:px-14 lg:px-20 pb-4">
           {JOURNEY.map((step, i) => (
             <Reveal key={step.title} delay={`delay-${i}`} className="scroll-snap-center shrink-0 w-[78%] sm:w-[45%] lg:w-auto">
               <div className="relative h-full rounded-[28px] bg-[#FAFAFC] border border-gray-200 p-7 overflow-hidden hover-card-rise">
@@ -271,7 +271,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
       </section>
 
       {/* ═══ HOW THE GUARANTEE WORKS ═══ */}
-      <section className="relative overflow-hidden py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#052E25] text-white">
+      <section className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#052E25] text-white">
         <div aria-hidden className="absolute -bottom-40 -left-20 w-[36rem] h-[36rem] rounded-full bg-emerald-500/20 blur-[140px]" />
         <Reveal className="relative text-center max-w-3xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-300">Our promise</span>
@@ -283,7 +283,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
           </p>
         </Reveal>
 
-        <div className="relative mt-8 md:mt-14 max-w-4xl mx-auto">
+        <div className="relative mt-14 max-w-4xl mx-auto">
           <Reveal className="flex justify-center">
             <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-white text-[#0A1628] font-bold shadow-xl">
               <UserPlus className="w-5 h-5 text-emerald-600" />
@@ -318,21 +318,21 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
       </section>
 
       {/* ═══ WORK PICKER ═══ */}
-      <section id="worker-jobs" className="py-12 md:py-16 lg:py-12 2xl:py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100 scroll-mt-20">
+      <section id="worker-jobs" className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100 scroll-mt-20">
         <Reveal className="max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Find your kind of work</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
             What kind of work suits you?
           </h2>
-          <p className="hidden md:block mt-4 text-base sm:text-lg text-gray-600">Tap an industry to see the jobs and what the work involves.</p>
+          <p className="mt-4 text-base sm:text-lg text-gray-600">Tap an industry to see the jobs and what the work involves.</p>
         </Reveal>
-        <Reveal className="mt-6 md:mt-8" delay="delay-1">
+        <Reveal className="mt-12" delay="delay-1">
           <WorkPicker onApply={apply} />
         </Reveal>
       </section>
 
       {/* ═══ WHAT TO BRING ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <Reveal>
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Before you apply</span>
@@ -376,7 +376,7 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
       </section>
 
       {/* ═══ FAQ ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16">
           <Reveal>
             <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Questions</span>

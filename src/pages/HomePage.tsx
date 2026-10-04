@@ -244,7 +244,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           - MOBILE: Full-screen height & width coverage, text on top layer
           - Two Buttons: 1) Call Dispatch 2) Know More (directs to About)
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full h-auto md:h-[100svh] md:min-h-[600px] overflow-hidden bg-white flex flex-col justify-between border-b border-gray-100">
+      <section className="relative w-full h-auto md:h-[calc(100vh-4.5rem)] md:min-h-[580px] md:max-h-[920px] overflow-hidden bg-white flex flex-col justify-between border-b border-gray-100">
         
         {/* ── DESKTOP LAYOUT (md:flex) ── */}
         <div className="hidden md:flex relative w-full h-full flex-col justify-between overflow-hidden">
@@ -371,10 +371,10 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           CHAPTER 1: THE VISUAL STORYBOARD (EMPTY SHIFT VS FILLED SHIFT)
           Even a person who cannot read sees the red panic vs green success!
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-12 md:py-14 bg-[#FAFAFC] w-full border-b border-gray-100">
+      <section className="py-16 sm:py-24 bg-[#FAFAFC] w-full border-b border-gray-100">
         <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
           <Reveal>
-            <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
+            <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
               <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
                 The Frontline Reality
               </span>
@@ -385,12 +385,12 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           </Reveal>
 
           {/* High-Contrast Visual Comparison (Red Crisis vs Green Victory) */}
-          <div className="rail grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             
             {/* Visual Problem Card (Red Alert) */}
             <Reveal delay="delay-0">
               <div className="rounded-3xl bg-white border-2 border-rose-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
-                <div className="relative h-44 md:h-52 xl:h-64 overflow-hidden bg-rose-950">
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-rose-950">
                   <img
                     src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80"
                     alt="Empty closed store shelves"
@@ -438,7 +438,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
             {/* Visual Solution Card (Green Victory) */}
             <Reveal delay="delay-1">
               <div className="rounded-3xl bg-white border-2 border-emerald-300 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between h-full">
-                <div className="relative h-44 md:h-52 xl:h-64 overflow-hidden bg-emerald-950">
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-emerald-950">
                   <img
                     src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=800&q=80"
                     alt="Busy thriving supermarket store"
@@ -492,10 +492,10 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           CHAPTER 2: THE 5 PICTURE-STEPS JOURNEY ("HOW IT WORKS")
           Visual comic/infographic strip: 1 to 5. Pure visual storytelling.
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-12 md:py-14 bg-white w-full border-b border-gray-100">
+      <section className="py-16 sm:py-24 bg-white w-full border-b border-gray-100">
         <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
           <Reveal>
-            <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
+            <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
               <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
                 Rapid On-Demand Workflow
               </span>
@@ -506,7 +506,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           </Reveal>
 
           {/* 5 Step Visual Picture Strip (Mobile-first swipeable / responsive grid) */}
-          <div className="rail grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 w-full">
             {[
               {
                 num: "1",
@@ -595,26 +595,26 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           CHAPTER 4: THE FAIR PAY VISUALIZER ($20 BILL COMPARISON)
           Visual comparison showing scissors taking 38% vs 100% to worker
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-12 md:py-14 bg-white w-full border-b border-gray-100">
+      <section className="py-16 sm:py-24 bg-white w-full border-b border-gray-100">
         <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
           <Reveal>
-            <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
+            <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
               <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
                 Success-Based Ecosystem
               </span>
               <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat']">
                 Transparent Terms for Businesses & Job Seekers
               </h2>
-              <p className="hidden md:block mt-3 text-base text-gray-500 font-medium">
+              <p className="mt-3 text-base text-gray-500 font-medium">
                 A performance-driven platform where businesses get guaranteed shift coverage and job seekers secure verified employment.
               </p>
             </div>
           </Reveal>
 
-          <div className="rail grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             
             {/* For Businesses Value Card */}
-            <div className="p-8 rounded-3xl bg-blue-50/60 border-2 border-blue-200 space-y-4 md:space-y-6 max-md:p-5">
+            <div className="p-8 rounded-3xl bg-blue-50/60 border-2 border-blue-200 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#0066FF] text-white">
                   For Store Operators
@@ -623,8 +623,8 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
               </div>
 
               {/* Graphic Representation */}
-              <div className="p-4 md:p-6 rounded-2xl bg-white border border-blue-200 text-center space-y-3">
-                <div className="text-2xl md:text-3xl font-black text-[#0066FF] font-mono">100% Verified Crew</div>
+              <div className="p-6 rounded-2xl bg-white border border-blue-200 text-center space-y-3">
+                <div className="text-3xl font-black text-[#0066FF] font-mono">100% Verified Crew</div>
                 <div className="text-xs text-gray-500">Pay for confirmed workforce attendance and reliability</div>
                 <div className="w-full h-3 rounded-full bg-blue-100 overflow-hidden">
                   <div className="h-full bg-[#0066FF] w-full" />
@@ -652,7 +652,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
             </div>
 
             {/* For Job Seekers Value Card */}
-            <div className="p-8 rounded-3xl bg-emerald-50/60 border-2 border-emerald-300 space-y-4 md:space-y-6 max-md:p-5">
+            <div className="p-8 rounded-3xl bg-emerald-50/60 border-2 border-emerald-300 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-600 text-white">
                   For Job Seekers
@@ -661,8 +661,8 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
               </div>
 
               {/* Graphic Representation */}
-              <div className="p-4 md:p-6 rounded-2xl bg-white border border-emerald-200 text-center space-y-3">
-                <div className="text-2xl md:text-3xl font-black text-emerald-600 font-mono">Guaranteed Job Placement</div>
+              <div className="p-6 rounded-2xl bg-white border border-emerald-200 text-center space-y-3">
+                <div className="text-3xl font-black text-emerald-600 font-mono">Guaranteed Job Placement</div>
                 <div className="text-xs text-gray-500">Get placed in a job, or get your money refunded</div>
                 <div className="w-full h-3 rounded-full bg-emerald-100 overflow-hidden">
                   <div className="h-full bg-emerald-500 w-full" />
@@ -698,10 +698,10 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           CHAPTER 5: VISUAL NEIGHBORHOOD MAP (ILLUSTRATED CONNECTIONS)
           A graphic SVG map showing homes connected to local businesses
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-12 md:py-14 bg-[#FAFAFC] w-full border-b border-gray-100">
+      <section className="py-16 sm:py-24 bg-[#FAFAFC] w-full border-b border-gray-100">
         <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
           <Reveal>
-            <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
+            <div className="text-center max-w-3xl mx-auto mb-12">
               <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
                 Hyperlocal Neighborhood Grid
               </span>
@@ -712,13 +712,13 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           </Reveal>
 
           {/* Visual Metro Map Graphic */}
-          <div className="p-4 sm:p-12 rounded-3xl bg-white border border-gray-200 shadow-sm w-full relative overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 items-center">
+          <div className="p-8 sm:p-12 rounded-3xl bg-white border border-gray-200 shadow-sm w-full relative overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
               
               {/* Home Node */}
-              <div className="p-4 md:p-6 rounded-2xl bg-blue-50 border border-blue-100 text-center space-y-2 md:space-y-3">
-                <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md max-md:w-11 max-md:h-11">
-                  <Users className="w-6 h-6 md:w-7 md:h-7" />
+              <div className="p-6 rounded-2xl bg-blue-50 border border-blue-100 text-center space-y-3">
+                <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md">
+                  <Users className="w-7 h-7" />
                 </div>
                 <div className="font-bold text-gray-900 text-lg">Local Community Homes</div>
                 <p className="text-xs text-gray-500">Verified workers living right in the neighborhood</p>
@@ -728,7 +728,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
               </div>
 
               {/* Connection Highway Graphic */}
-              <div className="text-center space-y-3 py-1 md:py-4">
+              <div className="text-center space-y-3 py-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   Short Neighborhood Commute
@@ -738,13 +738,13 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                     ⚡
                   </div>
                 </div>
-                <div className="hidden md:block text-xs text-gray-400 font-medium">Zero transit delays • High attendance</div>
+                <div className="text-xs text-gray-400 font-medium">Zero transit delays • High attendance</div>
               </div>
 
               {/* Storefront Node */}
-              <div className="p-4 md:p-6 rounded-2xl bg-slate-900 text-white text-center space-y-2 md:space-y-3">
-                <div className="w-14 h-14 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center mx-auto shadow-md font-bold max-md:w-11 max-md:h-11">
-                  <Store className="w-6 h-6 md:w-7 md:h-7" />
+              <div className="p-6 rounded-2xl bg-slate-900 text-white text-center space-y-3">
+                <div className="w-14 h-14 rounded-full bg-emerald-500 text-slate-900 flex items-center justify-center mx-auto shadow-md font-bold">
+                  <Store className="w-7 h-7" />
                 </div>
                 <div className="font-bold text-white text-lg">Your Storefront Doors</div>
                 <p className="text-xs text-slate-300">Supermarket, dining, fuel, warehouse, salon</p>
@@ -763,7 +763,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           CHAPTER 6: REAL PEOPLE & STOREFRONTS (VISUAL SOCIAL PROOF)
           Photos of real humans, real stores, 5-star badges
           ═══════════════════════════════════════════════════════════ */}
-      <section className="py-12 md:py-14 bg-white w-full border-b border-gray-100">
+      <section className="py-16 sm:py-24 bg-white w-full border-b border-gray-100">
         <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
           <Reveal>
             <div className="text-center max-w-3xl mx-auto mb-12">
@@ -776,7 +776,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
             </div>
           </Reveal>
 
-          <div className="rail grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
             {testimonials.map((t, idx) => (
               <Reveal key={idx} delay={`delay-${idx}`}>
                 <div className="p-8 rounded-3xl bg-[#FAFAFC] border border-gray-200 shadow-xs hover:shadow-md transition-all flex flex-col justify-between h-full">
@@ -814,7 +814,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           CHAPTER 7: DIRECT DIAL CONSOLE (MOBILE-FIRST 1-TAP ACTION)
           Simple, bold, big buttons so anyone can call in 1 tap
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-12 md:py-14 bg-[#0A1628] text-white w-full relative overflow-hidden">
+      <section className="py-16 sm:py-24 bg-[#0A1628] text-white w-full relative overflow-hidden">
         <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20 text-center relative z-10">
           <Reveal>
             <div className="w-16 h-16 rounded-full bg-blue-600/30 border border-blue-400/40 text-[#00D4FF] flex items-center justify-center mx-auto mb-6">

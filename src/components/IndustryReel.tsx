@@ -80,7 +80,7 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
     <section
       ref={sectionRef}
       aria-labelledby="industry-reel-heading"
-      className="relative py-10 md:py-12 bg-[#FAFAFC] w-full border-b border-gray-100 overflow-hidden"
+      className="relative py-16 sm:py-24 bg-[#FAFAFC] w-full border-b border-gray-100 overflow-hidden"
     >
       <div className="relative w-full px-5 sm:px-8 md:px-14 lg:px-20">
         <span
@@ -92,7 +92,7 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
         </span>
 
         <div className="relative flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className={`reveal-on-scroll ${seen ? "revealed" : ""} max-w-2xl lg:max-w-none`}>
+          <div className={`reveal-on-scroll ${seen ? "revealed" : ""} max-w-2xl`}>
             <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
               Frontline Trade Coverage
             </span>
@@ -100,11 +100,11 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
               id="industry-reel-heading"
               className="text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat'] leading-[1.05]"
             >
-              Every essential trade.{" "}
-              <br className="lg:hidden" />
+              Every essential trade.
+              <br />
               <span className="text-gradient-blue">One local network.</span>
             </h2>
-            <p className="hidden md:block mt-3 text-base text-gray-500 font-medium max-w-xl">
+            <p className="mt-4 text-base text-gray-500 font-medium max-w-xl">
               Tap an industry to see the roles we staff and the work they cover. All 10 industries are on the Roles page.
             </p>
           </div>
@@ -138,7 +138,7 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
 
       {/* Ticker: all ten industries at a glance */}
       <div
-        className={`reveal-on-scroll delay-2 ${seen ? "revealed" : ""} relative mt-5 md:mt-7 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]`}
+        className={`reveal-on-scroll delay-2 ${seen ? "revealed" : ""} relative mt-8 sm:mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]`}
       >
         <div className="flex w-max animate-marquee py-1">
           {[...INDUSTRIES, ...INDUSTRIES].map((ind, i) => {
@@ -160,32 +160,9 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
       </div>
 
       {/* The reel */}
-      <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20 mt-4 md:mt-6">
-        {/* Phones: one panel at a time, picked from a swipeable chip row */}
-        <div className="lg:hidden -mx-5 sm:-mx-8 md:-mx-14 px-5 sm:px-8 md:px-14 mb-3 flex gap-2 overflow-x-auto [scrollbar-width:none]" role="group" aria-label="Featured industries">
-          {FEATURED.map((ind, i) => (
-            <button
-              key={ind.id}
-              onClick={() => setActive(i)}
-              aria-pressed={i === active}
-              className={`shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold border transition-colors ${
-                i === active ? "bg-[#0A1628] border-[#0A1628] text-white" : "bg-white border-gray-200 text-gray-700"
-              }`}
-            >
-              <ind.icon className="w-3.5 h-3.5" />
-              {ind.title}
-            </button>
-          ))}
-          <button
-            onClick={() => onNavigate("roles")}
-            className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold bg-[#0066FF] text-white"
-          >
-            +{MORE.length} more
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+      <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20 mt-6 sm:mt-8">
         <div
-          className="flex flex-col lg:flex-row gap-1.5 lg:gap-3 h-[max(18rem,calc(100svh-27rem))] max-h-[24rem] lg:max-h-none lg:h-[clamp(20rem,calc(100svh-26rem),35rem)]"
+          className="flex flex-col lg:flex-row gap-1.5 lg:gap-3 h-[680px] lg:h-[560px]"
           onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
           onPointerLeave={(e) => e.pointerType === "mouse" && setHovered(false)}
           onFocus={(e) => {
@@ -201,7 +178,7 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
               <div
                 key={ind.id}
                 className={`relative min-w-0 min-h-0 transition-[flex] duration-700 ${
-                  isActive ? "flex-[1_1_0%] lg:flex-[8_1_0%] xl:flex-[6_1_0%]" : "hidden lg:block lg:flex-[1_1_0%]"
+                  isActive ? "flex-[1_1_0%] lg:flex-[8_1_0%] xl:flex-[6_1_0%]" : "flex-[0_0_56px] lg:flex-[1_1_0%]"
                 }`}
                 style={{ transitionTimingFunction: EASE }}
               >
@@ -351,7 +328,7 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
           })}
 
           {/* The other five, one click away */}
-          <div className="relative min-w-0 min-h-0 hidden lg:block lg:flex-[0_0_184px] xl:flex-[0_0_232px] transition-[flex] duration-700" style={{ transitionTimingFunction: EASE }}>
+          <div className="relative min-w-0 min-h-0 flex-[0_0_60px] lg:flex-[0_0_184px] xl:flex-[0_0_232px] transition-[flex] duration-700" style={{ transitionTimingFunction: EASE }}>
             <button
               onClick={() => onNavigate("roles")}
               aria-label={`See ${MORE.length} more industries on the Roles page`}
@@ -387,6 +364,13 @@ export function IndustryReel({ onNavigate }: IndustryReelProps) {
           </div>
         </div>
 
+        <button
+          onClick={() => onNavigate("roles")}
+          className="lg:hidden mt-6 w-full py-4 rounded-full bg-[#0A1628] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#0A1628]/15 active:scale-95 transition-transform"
+        >
+          <span>Explore all 10 industries</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
     </section>
   );

@@ -255,7 +255,7 @@ function EmptyShiftCost() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
-      <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-5 sm:p-8 space-y-5 sm:space-y-7">
+      <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-6 sm:p-8 space-y-7">
         <Slider
           label="Shifts you run short-staffed each month"
           value={shifts}
@@ -285,11 +285,11 @@ function EmptyShiftCost() {
         />
       </div>
 
-      <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#0066FF] to-[#00B4FF] p-6 sm:p-8 flex flex-col justify-between md:min-h-[280px]">
+      <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#0066FF] to-[#00B4FF] p-6 sm:p-8 flex flex-col justify-between min-h-[280px]">
         <div aria-hidden className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-white/15 blur-2xl" />
         <div className="relative">
           <div className="text-xs font-bold uppercase tracking-widest text-white/80">Sales at risk every month</div>
-          <div className="mt-2 font-black font-['Montserrat'] text-4xl sm:text-6xl text-white tabular-nums break-all" aria-live="polite">
+          <div className="mt-3 font-black font-['Montserrat'] text-5xl sm:text-6xl text-white tabular-nums break-all" aria-live="polite">
             ₹{inr.format(monthly)}
           </div>
           <div className="mt-2 text-white/85 font-semibold">
@@ -420,7 +420,7 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
       {/* ═══ HERO ═══ */}
       <section className="relative overflow-hidden bg-white border-b border-gray-100">
         <div aria-hidden className="absolute inset-0 opacity-60 [background-image:radial-gradient(rgba(0,102,255,0.14)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_70%_40%,black_20%,transparent_70%)]" />
-        <div className="relative px-5 sm:px-8 md:px-14 lg:px-20 pt-28 pb-12 lg:pt-36 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-16 items-center">
+        <div className="relative px-5 sm:px-8 md:px-14 lg:px-20 pt-32 pb-20 lg:pt-36 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-16 items-center">
           <div>
             <div
               className="animate-text-reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold uppercase tracking-wider text-[#0066FF]"
@@ -478,42 +478,31 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
             </ul>
           </div>
 
-          <div className="hidden lg:block animate-text-reveal" style={{ animationFillMode: "both", animationDelay: "450ms" }}>
+          <div className="animate-text-reveal" style={{ animationFillMode: "both", animationDelay: "450ms" }}>
             <RequestWalkthrough onRequest={() => onOpenCallModal("contractor")} />
           </div>
         </div>
       </section>
 
-      {/* ═══ WALKTHROUGH (phones: its own screen) ═══ */}
-      <section aria-label="Build a staff request" className="lg:hidden px-5 sm:px-8 md:px-14 py-12 bg-white border-b border-gray-100">
-        <Reveal>
-          <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Try it</span>
-          <h2 className="mt-2 text-3xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">Build a staff request.</h2>
-        </Reveal>
-        <Reveal className="mt-6" delay="delay-1">
-          <RequestWalkthrough onRequest={() => onOpenCallModal("contractor")} />
-        </Reveal>
-      </section>
-
       {/* ═══ COST OF AN EMPTY SHIFT ═══ */}
-      <section className="relative overflow-hidden py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0A1628] text-white">
+      <section className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0A1628] text-white">
         <div aria-hidden className="absolute -top-40 right-0 w-[40rem] h-[40rem] rounded-full bg-[#0066FF]/20 blur-[140px]" />
         <Reveal className="relative max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-widest text-[#00D4FF]">The real cost</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08] text-white">
             What is an empty shift costing you?
           </h2>
-          <p className="hidden md:block mt-4 text-base sm:text-lg text-slate-300">
+          <p className="mt-4 text-base sm:text-lg text-slate-300">
             Move the sliders to match your business. Missing staff rarely shows up on a bill, but it always shows up in your sales.
           </p>
         </Reveal>
-        <Reveal className="relative mt-8 md:mt-12" delay="delay-1">
+        <Reveal className="relative mt-12" delay="delay-1">
           <EmptyShiftCost />
         </Reveal>
       </section>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
         <Reveal className="max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">How it works</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
@@ -521,13 +510,13 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
           </h2>
         </Reveal>
 
-        <Reveal className="relative mt-8 md:mt-14">
+        <Reveal className="relative mt-14">
           <div aria-hidden className="hidden lg:block absolute top-7 left-7 right-7 h-[2px] bg-gray-200">
             <div className="h-full bg-gradient-to-r from-[#0066FF] to-[#00D4FF] animate-draw-across" />
           </div>
-          <ol className="rail relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+          <ol className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
             {STEPS.map((s, i) => (
-              <li key={s.title} className="relative max-md:rounded-3xl max-md:bg-[#FAFAFC] max-md:border max-md:border-gray-200 max-md:p-6">
+              <li key={s.title} className="relative">
                 <span className="relative z-10 w-14 h-14 rounded-2xl bg-white border-2 border-[#0066FF] text-[#0066FF] flex items-center justify-center shadow-md">
                   <s.icon className="w-6 h-6" />
                 </span>
@@ -541,7 +530,7 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
       </section>
 
       {/* ═══ 30-DAY PROMISE ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-16 items-center">
           <Reveal>
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-bold uppercase tracking-wider text-emerald-700">
@@ -562,7 +551,7 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
       </section>
 
       {/* ═══ INDUSTRY INDEX ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <Reveal className="max-w-2xl">
             <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Who we staff</span>
@@ -581,22 +570,22 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
           </Reveal>
         </div>
 
-        <div className="mt-8 md:mt-12 grid grid-cols-2 gap-x-3 md:gap-x-10 md:border-t md:border-gray-200">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-10 border-t border-gray-200">
           {INDUSTRIES.map((ind, i) => (
             <Reveal key={ind.id} delay={`delay-${i % 2}`}>
               <button
                 onClick={() => onNavigate("roles")}
-                className="group w-full flex items-center gap-2.5 md:gap-4 py-2.5 md:py-5 border-b border-gray-200 text-left"
+                className="group w-full flex items-center gap-4 py-5 border-b border-gray-200 text-left"
               >
-                <span className="hidden md:inline font-mono text-xs font-bold text-gray-300 w-6">{String(i + 1).padStart(2, "0")}</span>
-                <span className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 transition-colors group-hover:bg-[#0066FF] group-hover:text-white">
+                <span className="font-mono text-xs font-bold text-gray-300 w-6">{String(i + 1).padStart(2, "0")}</span>
+                <span className="w-11 h-11 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 transition-colors group-hover:bg-[#0066FF] group-hover:text-white">
                   <ind.icon className="w-5 h-5" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[13px] md:text-base font-bold text-[#0A1628] leading-tight">{ind.title}</span>
-                  <span className="hidden md:block text-sm text-gray-500 truncate">{ind.roles}</span>
+                  <span className="block font-bold text-[#0A1628]">{ind.title}</span>
+                  <span className="block text-sm text-gray-500 truncate">{ind.roles}</span>
                 </span>
-                <ArrowRight className="hidden md:block w-4 h-4 text-gray-300 shrink-0 transition-all group-hover:text-[#0066FF] group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4 text-gray-300 shrink-0 transition-all group-hover:text-[#0066FF] group-hover:translate-x-1" />
               </button>
             </Reveal>
           ))}
@@ -604,7 +593,7 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
       </section>
 
       {/* ═══ THE USUAL WAY VS LABOURA ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
         <Reveal className="text-center max-w-3xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Why switch</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
@@ -612,13 +601,13 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
           </h2>
         </Reveal>
 
-        <Reveal className="mt-8 md:mt-12 max-w-5xl mx-auto">
+        <Reveal className="mt-12 max-w-5xl mx-auto">
           <div className="hidden md:grid grid-cols-[0.8fr_1fr_1fr] gap-4 px-6 pb-3 text-xs font-bold uppercase tracking-wider">
             <span />
             <span className="text-gray-500">The usual way</span>
             <span className="text-[#0066FF]">With Laboura</span>
           </div>
-          <div className="rail md:space-y-3">
+          <div className="space-y-3">
             {COMPARISON.map((row) => (
               <div
                 key={row.topic}
@@ -647,14 +636,14 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
       </section>
 
       {/* ═══ FAQ ═══ */}
-      <section className="py-12 md:py-20 lg:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16">
           <Reveal>
             <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Questions</span>
             <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
               What business owners ask us.
             </h2>
-            <p className="hidden md:block mt-4 text-gray-600">Something else on your mind? Our team is one call away.</p>
+            <p className="mt-4 text-gray-600">Something else on your mind? Our team is one call away.</p>
           </Reveal>
           <Reveal delay="delay-1">
             <FAQ items={FAQS} />
