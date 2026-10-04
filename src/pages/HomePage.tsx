@@ -288,19 +288,30 @@ const testimonials = [
 ];
 
 /* ── Custom Corridor Geometry for Mobile vs Desktop Cinematic Scale ── */
+// Portrait phones: rails open slowly and cards stay nearly face-on, so each
+// photo grows to most of the screen height before it leaves the frame.
 const MOBILE_PATH: CorridorPath = {
-  perspective: 20,
-  cardWidth: 54,
+  perspective: 60,
+  cardWidth: 56,
   cardHeight: 84,
-  cardRadius: 1.6,
-  birthHeight: 12,
-  exitHeight: 185,
-  railBirth: -14,
-  railExit: 72,
-  fan: 2.6,
-  turnBirth: 4,
-  turnExit: 28,
-  stops: 24,
+  cardRadius: 2.4,
+  birthHeight: 10,
+  exitHeight: 240,
+  railBirth: -12,
+  railExit: 46,
+  fan: 1.8,
+  turnBirth: 2,
+  turnExit: 14,
+  stops: 32,
+};
+
+// Corridor lengths scale with width, so squat viewports (short phones, small
+// tablets) need smaller cards or the corridor turns into a wall of panels.
+const MOBILE_COMPACT_PATH: CorridorPath = {
+  ...MOBILE_PATH,
+  birthHeight: 6.5,
+  exitHeight: 150,
+  railExit: 44,
 };
 
 const DESKTOP_PATH: CorridorPath = {
@@ -320,11 +331,21 @@ const DESKTOP_PATH: CorridorPath = {
 
 export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
+  const [compactCorridor, setCompactCorridor] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-aspect-ratio: 10/18)");
+    const update = () => setCompactCorridor(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolledPastHero(window.scrollY > 300);
+      setScrolledPastHero(window.scrollY > window.innerHeight * 0.75);
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -393,57 +414,54 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
         </div>
 
         {/* ── MOBILE LAYOUT (< md) ── */}
-        <div className="md:hidden relative w-full h-[520px] sm:h-[580px] flex flex-col justify-between py-5 px-4 overflow-hidden">
-          {/* Images in background COVERING THE ENTIRE MOBILE SCREEN - Full-bleed height & width */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
+        {/* The section sits under the fixed 5rem navbar, so 100svh fills exactly one screen. */}
+        <div className="md:hidden relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-white flex flex-col">
+          {/* Corridor fills the space between navbar and copy, vanishing point centred in it. */}
+          <div className="relative flex-1 min-h-0 mt-20 pointer-events-none z-0">
             <ImageStreamHero
               leftImages={LEFT_SERVICE_IMAGES}
               rightImages={RIGHT_SERVICE_IMAGES}
-              cards={8}
+              cards={10}
               speed={16}
-              axis={46}
-              path={MOBILE_PATH}
-              className="w-full h-full"
+              axis={48}
+              path={compactCorridor ? MOBILE_COMPACT_PATH : MOBILE_PATH}
+              className="absolute inset-0 overflow-visible"
             />
           </div>
 
-          {/* Top: Eyebrow pill on top layer */}
-          <div className="relative z-10 w-full flex justify-center pt-2 pointer-events-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 border border-blue-200 text-[11px] font-bold uppercase tracking-wider text-[#0066FF] shadow-xs">
+          {/* The fade lives on the text block so it tracks the copy's height on any screen. */}
+          <div className="relative z-10 -mt-24 flex flex-col items-center text-center px-5 pt-24 pb-[max(1.75rem,env(safe-area-inset-bottom))] bg-gradient-to-t from-white from-[78%] via-white/85 to-transparent">
+            <div className="[@media(max-height:700px)]:hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-blue-200 text-[11px] font-bold uppercase tracking-wider text-[#0066FF] shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-pulse" />
               <span>On-Demand Frontline Network</span>
             </div>
-          </div>
 
-          {/* Middle: Heading & Subtitle on top layer directly (NO white box behind text) */}
-          <div className="relative z-10 w-full text-center flex flex-col items-center my-auto py-4 pointer-events-auto">
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.05] text-[#0A1628] font-['Montserrat'] select-none drop-shadow-[0_2px_14px_rgba(255,255,255,1)]">
+            <h1 className="mt-3 text-[2.6rem] sm:text-5xl font-black tracking-tight leading-[1.02] text-[#0A1628] font-['Montserrat'] select-none">
               Future is<br />
               built on Laboura.
             </h1>
 
-            <p className="mt-3 text-sm text-gray-800 font-semibold max-w-xs mx-auto leading-relaxed text-balance drop-shadow-[0_1px_8px_rgba(255,255,255,1)]">
-              The dedicated frontline workforce network connecting local businesses with verified staff living in the same community across 10 essential physical industries.
+            <p className="mt-3 text-[15px] text-gray-600 font-medium max-w-[21rem] leading-relaxed text-balance">
+              Verified frontline staff from your own neighbourhood, across 10 essential industries.
             </p>
-          </div>
 
-          {/* Bottom: The Two Buttons on top layer */}
-          <div className="relative z-10 w-full flex flex-col gap-2.5 max-w-xs mx-auto pb-4 pointer-events-auto">
-            <button
-              onClick={() => onOpenCallModal("general")}
-              className="w-full py-3.5 px-5 rounded-full font-bold text-sm text-white bg-[#0A1628] hover:bg-[#0066FF] shadow-lg shadow-black/20 flex items-center justify-center gap-2 active:scale-95"
-            >
-              <PhoneCall className="w-4 h-4 text-[#00D4FF]" />
-              <span>Call Dispatch</span>
-            </button>
+            <div className="mt-6 w-full max-w-sm flex flex-col gap-2.5">
+              <button
+                onClick={() => onOpenCallModal("general")}
+                className="w-full py-4 px-5 rounded-full font-bold text-[15px] text-white bg-[#0A1628] hover:bg-[#0066FF] shadow-lg shadow-black/20 flex items-center justify-center gap-2 active:scale-95 transition-all"
+              >
+                <PhoneCall className="w-4 h-4 text-[#00D4FF]" />
+                <span>Call Dispatch</span>
+              </button>
 
-            <button
-              onClick={() => onNavigate("about")}
-              className="w-full py-3 px-5 rounded-full font-bold text-xs text-gray-800 bg-white/95 hover:bg-white border border-gray-300 shadow-sm flex items-center justify-center gap-1.5 active:scale-95"
-            >
-              <span>Know More</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#0066FF]" />
-            </button>
+              <button
+                onClick={() => onNavigate("about")}
+                className="w-full py-3.5 px-5 rounded-full font-bold text-sm text-gray-800 bg-white border border-gray-300 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
+              >
+                <span>Know More</span>
+                <ArrowRight className="w-4 h-4 text-[#0066FF]" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1004,7 +1022,11 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           MOBILE-FIRST STICKY ACTION BAR (VISIBLE ON MOBILE ONLY)
           Guarantees mobile users always have 1-tap dispatch access
           ═══════════════════════════════════════════════════════════════ */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-gray-200 p-3 flex gap-2 shadow-2xl">
+      <div
+        className={`sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-gray-200 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2 shadow-2xl transition-all duration-300 ${
+          scrolledPastHero ? "translate-y-0 visible" : "translate-y-full invisible"
+        }`}
+      >
         <a
           href="tel:18005226872"
           className="flex-1 py-3 px-4 rounded-xl bg-[#0A1628] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md active:scale-95"
