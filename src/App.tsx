@@ -8,6 +8,7 @@ import { RolesPage } from "./pages/RolesPage";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { CallExecutiveModal } from "./components/CallExecutiveModal";
+import { ScrollChrome } from "./components/ScrollChrome";
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<PageId>("home");
@@ -32,6 +33,8 @@ export function App() {
         onNavigate={handleNavigate}
         onOpenCallModal={handleOpenCallModal}
       />
+
+      <ScrollChrome key={currentPage} />
 
       {/* Main Page Content */}
       <main className="flex-grow">

@@ -58,6 +58,12 @@ function ConversationThread() {
   const [started, setStarted] = useState(false);
   const [shown, setShown] = useState(() => (prefersReducedMotion() ? THREAD.length + 1 : 0));
   const [typing, setTyping] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [shown, typing]);
 
   useEffect(() => {
     const el = ref.current;
@@ -102,36 +108,19 @@ function ConversationThread() {
           </div>
         </div>
 
-        <div className="px-4 py-5 space-y-3 bg-[#F4F7FB]">
-          {THREAD.map((m, i) => {
-            const visible = i < shown;
-            const isNext = i === shown && typing;
-            return (
-              <div key={i} className={`relative flex ${m.mine ? "justify-end" : "justify-start"}`}>
-                {isNext && (
-                  <div
-                    className={`absolute top-0 ${m.mine ? "right-0" : "left-0"} px-4 py-3 rounded-2xl bg-white border border-gray-200 flex gap-1`}
-                    aria-hidden
-                  >
-                    {[0, 1, 2].map((d) => (
-                      <span
-                        key={d}
-                        className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce"
-                        style={{ animationDelay: `${d * 140}ms` }}
-                      />
-                    ))}
-                  </div>
-                )}
+        {/* A real chat window: fixed height, pinned to the newest message. */}
+        <div ref={scrollRef} className="h-[clamp(15rem,calc(100svh-26rem),24rem)] max-md:h-[clamp(12rem,calc(100svh-38rem),18rem)] overflow-y-auto overscroll-contain flex flex-col bg-[#F4F7FB] [scrollbar-width:thin]">
+          <div className="mt-auto px-4 py-5 space-y-3">
+            {THREAD.slice(0, shown).map((m, i) => (
+              <div key={i} className={`flex ${m.mine ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[85%] px-3.5 py-2.5 shadow-sm ${visible ? "animate-bubble-in" : "opacity-0"} ${
+                  className={`animate-bubble-in max-w-[85%] px-3.5 py-2.5 shadow-sm ${
                     m.mine
                       ? "rounded-2xl rounded-br-md bg-[#0066FF] text-white"
                       : "rounded-2xl rounded-bl-md bg-white text-gray-800 border border-gray-100"
                   }`}
                 >
-                  {!m.mine && (
-                    <div className="text-[11px] font-bold text-[#0066FF] mb-0.5">{m.from}</div>
-                  )}
+                  {!m.mine && <div className="text-[11px] font-bold text-[#0066FF] mb-0.5">{m.from}</div>}
                   <p className="text-[13.5px] leading-snug">{m.text}</p>
                   <div className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${m.mine ? "text-white/70" : "text-gray-400"}`}>
                     {m.time}
@@ -139,14 +128,26 @@ function ConversationThread() {
                   </div>
                 </div>
               </div>
-            );
-          })}
+            ))}
 
-          <div className={`flex justify-center pt-2 ${shown > THREAD.length ? "animate-bubble-in" : "opacity-0"}`}>
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A1628] text-white text-xs font-bold shadow-md">
-              <Tricolour className="w-6" />
-              That's how Laboura was born.
-            </span>
+            {typing && shown < THREAD.length && (
+              <div className={`flex ${THREAD[shown].mine ? "justify-end" : "justify-start"}`} aria-hidden>
+                <div className="animate-bubble-in px-4 py-3 rounded-2xl bg-white border border-gray-200 flex gap-1">
+                  {[0, 1, 2].map((d) => (
+                    <span key={d} className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: `${d * 140}ms` }} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {shown > THREAD.length && (
+              <div className="flex justify-center pt-2 animate-bubble-in">
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A1628] text-white text-xs font-bold shadow-md">
+                  <Tricolour className="w-6" />
+                  That's how Laboura was born.
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -216,22 +217,22 @@ function StoryTimeline() {
 
   return (
     <div ref={trackRef} className="relative">
-      <div className="absolute left-[23px] sm:left-[27px] top-2 bottom-2 w-[2px] bg-gray-200 rounded-full" aria-hidden>
+      <div className="hidden md:block absolute left-[27px] top-2 bottom-2 w-[2px] bg-gray-200 rounded-full" aria-hidden>
         <div ref={fillRef} className="h-full w-full origin-top bg-gradient-to-b from-[#FF9933] via-[#0066FF] to-[#138808] rounded-full" style={{ transform: "scaleY(0)" }} />
       </div>
 
-      <ol className="space-y-12 sm:space-y-16">
+      <ol className="rail md:space-y-10 lg:space-y-12">
         {STEPS.map((step, i) => (
           <li key={step.num}>
-            <Reveal delay={`delay-${i}`} className="relative pl-16 sm:pl-20">
-              <span className="absolute left-0 top-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white border border-gray-200 shadow-md flex items-center justify-center">
+            <Reveal delay={`delay-${i}`} className="relative h-full max-md:rounded-3xl max-md:bg-white max-md:border max-md:border-gray-200 max-md:p-6 md:pl-20">
+              <span className="max-md:mb-4 md:absolute md:left-0 md:top-0 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white border border-gray-200 shadow-md flex items-center justify-center">
                 <step.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#0066FF]" />
               </span>
               <span className="font-mono text-xs font-bold text-[#0066FF] tracking-widest">{step.num}</span>
               <h3 className="mt-1 text-2xl sm:text-4xl font-black text-[#0A1628] font-['Montserrat'] tracking-tight">
                 {step.title}
               </h3>
-              <p className="mt-3 text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl">{step.body}</p>
+              <p className="mt-3 text-[15px] lg:text-lg text-gray-600 leading-relaxed max-w-xl">{step.body}</p>
             </Reveal>
           </li>
         ))}
@@ -342,7 +343,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
       </section>
 
       {/* ═══ CHAPTER 1: WHAT HE KEPT HEARING ═══ */}
-      <section id="about-story" className="relative py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100 scroll-mt-20">
+      <section id="about-story" className="relative py-12 md:py-16 lg:py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100 scroll-mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <Reveal>
             <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Chapter one · What he kept hearing</span>
@@ -353,7 +354,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
               Over chai, at trade meetings, in phone calls late at night. Different businesses, different
               neighbourhoods, the same problem: when you need people the most, you can't find them.
             </p>
-            <div className="mt-8 grid grid-cols-3 gap-3 max-w-md">
+            <div className="mt-8 hidden sm:grid grid-cols-3 gap-3 max-w-md">
               {[
                 { icon: Users, label: "Staff no-shows" },
                 { icon: Clock, label: "Last-minute gaps" },
@@ -372,7 +373,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
       </section>
 
       {/* ═══ CHAPTER 2: HEARD IT, LIVED IT, BUILT IT ═══ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
+      <section className="py-12 md:py-16 lg:py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-20">
           <div className="lg:sticky lg:top-32 self-start">
             <Reveal>
@@ -384,7 +385,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
                 <br />
                 <span className="text-gradient-blue">Built it.</span>
               </h2>
-              <p className="mt-5 text-base text-gray-500 max-w-sm leading-relaxed">
+              <p className="hidden md:block mt-5 text-base text-gray-500 max-w-sm leading-relaxed">
                 Laboura wasn't dreamt up in a boardroom. It came from a business owner who knew the problem
                 from both sides of the counter.
               </p>
@@ -396,7 +397,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
       </section>
 
       {/* ═══ CHAPTER 3: TWO SIDES OF THE SAME STREET ═══ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
+      <section className="py-12 md:py-16 lg:py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
         <Reveal className="text-center max-w-3xl mx-auto">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Chapter three · The real gap</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat'] leading-[1.08]">
@@ -407,7 +408,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 lg:gap-8 items-stretch">
+        <div className="rail mt-8 md:mt-14 grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 lg:gap-8 items-stretch">
           <Reveal delay="delay-0">
             <div className="h-full rounded-[28px] bg-[#FAFAFC] border border-gray-200 p-7 sm:p-9 hover-card-rise">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
@@ -429,7 +430,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
             </div>
           </Reveal>
 
-          <Reveal delay="delay-1" className="flex flex-col items-center justify-center gap-3">
+          <Reveal delay="delay-1" className="hidden lg:flex flex-col items-center justify-center gap-3">
             <span className="w-px h-10 lg:h-16 bg-gradient-to-b from-transparent to-[#0066FF]" />
             <span className="relative w-20 h-20 rounded-full bg-[#0A1628] flex items-center justify-center shadow-xl shadow-[#0066FF]/25">
               <span className="absolute inset-0 rounded-full animate-pulse-beacon" />
@@ -466,7 +467,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
       </section>
 
       {/* ═══ BELIEFS ═══ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
+      <section className="py-12 md:py-16 lg:py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
         <Reveal className="max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">What we stand for</span>
           <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat'] leading-[1.08]">
@@ -474,7 +475,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
           </h2>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="rail mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           {BELIEFS.map((b, i) => (
             <Reveal key={b.num} delay={`delay-${i}`}>
               <div className={`group relative h-full overflow-hidden rounded-[28px] bg-gradient-to-br ${b.tint} to-white border border-gray-200 p-8 hover-card-rise`}>
@@ -521,7 +522,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="rail grid grid-cols-1 sm:grid-cols-2 gap-4">
             {PROMISES.map((p, i) => (
               <Reveal key={p.title} delay={`delay-${i}`}>
                 <div className="h-full rounded-3xl bg-[#FAFAFC] border border-gray-200 p-6 flex gap-4 hover-card-rise">
@@ -543,7 +544,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
       </section>
 
       {/* ═══ CLOSING ═══ */}
-      <section className="relative overflow-hidden py-24 sm:py-32 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0A1628] text-white">
+      <section className="relative overflow-hidden py-16 md:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0A1628] text-white">
         <div aria-hidden className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[50rem] h-[30rem] rounded-full bg-[#0066FF]/25 blur-[140px]" />
         <Reveal className="relative max-w-4xl mx-auto text-center">
           <div className="mx-auto w-40 h-1 flex rounded-full overflow-hidden animate-draw-across" aria-hidden>

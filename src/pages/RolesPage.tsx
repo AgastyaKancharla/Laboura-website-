@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Building2,
   Check,
-  ChevronDown,
   PhoneCall,
   Search,
   UserPlus,
@@ -58,7 +57,7 @@ function IndustryDetail({
 }) {
   return (
     <div key={ind.id} className="rounded-[28px] overflow-hidden bg-white border border-gray-200 shadow-[0_30px_60px_-30px_rgba(10,22,40,0.3)]">
-      <div className="relative h-56 sm:h-72 overflow-hidden bg-[#0A1628]">
+      <div className="relative h-32 sm:h-52 lg:h-44 xl:h-56 overflow-hidden bg-[#0A1628]">
         <img src={ind.img} alt="" className="w-full h-full object-cover animate-ken-burns" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/30 to-transparent" />
         <div className="absolute bottom-6 left-6 right-6 flex items-end gap-4">
@@ -76,14 +75,14 @@ function IndustryDetail({
         </div>
       </div>
 
-      <div className="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div className="p-5 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6">
         <div>
           <div className="text-xs font-bold uppercase tracking-wider text-gray-400">Roles we fill</div>
           <ul className="mt-4 space-y-2">
             {splitRoles(ind.roles).map((r, i) => (
               <li
                 key={r}
-                className="animate-bubble-in flex items-center gap-3 rounded-xl bg-[#FAFAFC] border border-gray-200 px-4 py-3 text-[15px] font-bold text-[#0A1628]"
+                className="animate-bubble-in flex items-center gap-3 rounded-xl bg-[#FAFAFC] border border-gray-200 px-3.5 py-2 text-sm lg:text-[15px] font-bold text-[#0A1628]"
                 style={{ animationDelay: `${100 + i * 70}ms` }}
               >
                 <span className="w-1.5 h-6 rounded-full bg-gradient-to-b from-[#0066FF] to-[#00D4FF]" />
@@ -111,17 +110,17 @@ function IndustryDetail({
         </div>
       </div>
 
-      <div className="px-6 sm:px-8 pb-6 sm:pb-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="px-5 sm:px-6 pb-5 sm:pb-6 grid grid-cols-2 gap-2 sm:gap-3">
         <button
           onClick={onHire}
-          className="py-4 rounded-2xl bg-[#0A1628] hover:bg-[#0066FF] text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors"
+          className="py-3 rounded-2xl bg-[#0A1628] hover:bg-[#0066FF] text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors"
         >
           <Building2 className="w-4 h-4" />
           Hire for this
         </button>
         <button
           onClick={onApply}
-          className="py-4 rounded-2xl bg-white border border-gray-300 hover:border-emerald-500 hover:text-emerald-700 text-[#0A1628] text-sm font-bold flex items-center justify-center gap-2 transition-colors"
+          className="py-3 rounded-2xl bg-white border border-gray-300 hover:border-emerald-500 hover:text-emerald-700 text-[#0A1628] text-sm font-bold flex items-center justify-center gap-2 transition-colors"
         >
           <UserPlus className="w-4 h-4" />
           Apply for this work
@@ -217,29 +216,29 @@ export function RolesPage({ onNavigate, onOpenCallModal }: RolesPageProps) {
         </div>
       </section>
 
-      {/* ═══ FILTERS ═══ */}
-      <div className="sticky top-20 z-30 bg-white/90 backdrop-blur-xl border-b border-gray-200">
-        <div className="px-5 sm:px-8 md:px-14 lg:px-20 py-3 flex items-center gap-2 overflow-x-auto">
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.id}
-              onClick={() => setCategory(c.id)}
-              aria-pressed={category === c.id}
-              className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
-                category === c.id ? "bg-[#0A1628] text-white" : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-              }`}
-            >
-              {c.label}
-            </button>
-          ))}
-          <span className="ml-auto pl-4 text-xs font-bold text-gray-400 whitespace-nowrap" aria-live="polite">
-            {results.length} {results.length === 1 ? "industry" : "industries"}
-          </span>
-        </div>
-      </div>
-
       {/* ═══ DIRECTORY ═══ */}
-      <section className="px-5 sm:px-8 md:px-14 lg:px-20 py-12 lg:py-16 border-b border-gray-100">
+      <section aria-label="Role directory" className="justify-start border-b border-gray-100">
+        {/* Filters stay pinned while browsing the directory */}
+        <div className="sticky top-20 z-30 bg-white/90 backdrop-blur-xl border-b border-gray-200">
+          <div className="px-5 sm:px-8 md:px-14 lg:px-20 py-3 flex items-center gap-2 overflow-x-auto">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setCategory(c.id)}
+                aria-pressed={category === c.id}
+                className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+                  category === c.id ? "bg-[#0A1628] text-white" : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                }`}
+              >
+                {c.label}
+              </button>
+            ))}
+            <span className="ml-auto pl-4 text-xs font-bold text-gray-400 whitespace-nowrap" aria-live="polite">
+              {results.length} {results.length === 1 ? "industry" : "industries"}
+            </span>
+          </div>
+        </div>
+        <div className="px-5 sm:px-8 md:px-14 lg:px-20 py-10 lg:py-12">
         {results.length === 0 ? (
           <div className="max-w-xl mx-auto text-center py-16">
             <span className="w-16 h-16 mx-auto rounded-2xl bg-white border border-gray-200 flex items-center justify-center">
@@ -266,76 +265,64 @@ export function RolesPage({ onNavigate, onOpenCallModal }: RolesPageProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-6 lg:gap-10 items-start">
-            <ul className="space-y-2.5">
+            <ul className="-mx-5 px-5 sm:-mx-8 sm:px-8 md:-mx-14 md:px-14 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-2 gap-2 lg:gap-2.5 overflow-x-auto lg:overflow-visible pb-1 [scrollbar-width:none]">
               {results.map((ind) => {
                 const active = selected?.id === ind.id;
                 return (
-                  <li key={ind.id}>
+                  <li key={ind.id} className="shrink-0 lg:shrink">
                     <button
                       onClick={() => setSelectedId(ind.id)}
-                      aria-expanded={active}
-                      className={`group w-full flex items-center gap-4 p-4 rounded-2xl border text-left transition-all ${
+                      aria-pressed={active}
+                      className={`group w-full flex items-center gap-2 lg:gap-3 px-3 py-2 lg:p-3 rounded-full lg:rounded-2xl border text-left transition-all ${
                         active
                           ? "bg-white border-[#0066FF] shadow-[0_10px_30px_-12px_rgba(0,102,255,0.4)]"
                           : "bg-white border-gray-200 hover:border-gray-300"
                       }`}
                     >
                       <span
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                        className={`w-7 h-7 lg:w-10 lg:h-10 rounded-full lg:rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                           active ? "bg-[#0066FF] text-white" : "bg-blue-50 text-[#0066FF]"
                         }`}
                       >
-                        <ind.icon className="w-6 h-6" />
+                        <ind.icon className="w-4 h-4 lg:w-5 lg:h-5" />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block font-bold text-[#0A1628]">
+                        <span className="block text-xs lg:text-sm font-bold text-[#0A1628] whitespace-nowrap lg:whitespace-normal leading-tight">
                           <Highlight text={ind.title} query={query} />
                         </span>
-                        <span className="block text-sm text-gray-500 truncate">
+                        <span className="hidden lg:block text-xs text-gray-500 truncate">
                           <Highlight text={ind.roles} query={query} />
                         </span>
                       </span>
-                      <ArrowRight
-                        className={`hidden lg:block w-4 h-4 shrink-0 transition-all ${
-                          active ? "text-[#0066FF] translate-x-1" : "text-gray-300 group-hover:text-gray-500"
-                        }`}
-                      />
-                      <ChevronDown
-                        className={`lg:hidden w-5 h-5 shrink-0 transition-transform ${active ? "rotate-180 text-[#0066FF]" : "text-gray-400"}`}
-                      />
                     </button>
-                    {active && (
-                      <div className="lg:hidden mt-3">
-                        <IndustryDetail ind={ind} query={query} onHire={hire} onApply={apply} />
-                      </div>
-                    )}
                   </li>
                 );
               })}
             </ul>
 
             {selected && (
-              <div className="hidden lg:block lg:sticky lg:top-40">
+              <div className="lg:sticky lg:top-40">
                 <IndustryDetail ind={selected} query={query} onHire={hire} onApply={apply} />
               </div>
             )}
           </div>
         )}
+        </div>
       </section>
 
       {/* ═══ TWO DOORS ═══ */}
-      <section className="px-5 sm:px-8 md:px-14 lg:px-20 py-20 sm:py-24 bg-white">
+      <section className="px-5 sm:px-8 md:px-14 lg:px-20 py-12 md:py-20 lg:py-24 bg-white">
         <Reveal className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
             Found what you were looking for?
           </h2>
           <p className="mt-4 text-gray-600 text-lg">Pick your side and we'll take it from here.</p>
         </Reveal>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="rail mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
           <Reveal delay="delay-0">
             <button
               onClick={hire}
-              className="group relative w-full h-full overflow-hidden rounded-[28px] bg-[#0A1628] p-8 sm:p-10 text-left text-white"
+              className="group relative w-full h-full overflow-hidden rounded-[28px] bg-[#0A1628] p-6 sm:p-10 text-left text-white"
             >
               <span aria-hidden className="absolute -right-20 -bottom-20 w-72 h-72 rounded-full bg-[#0066FF]/40 blur-3xl transition-transform duration-700 group-hover:scale-125" />
               <Building2 className="relative w-10 h-10 text-[#00D4FF]" />
@@ -352,7 +339,7 @@ export function RolesPage({ onNavigate, onOpenCallModal }: RolesPageProps) {
           <Reveal delay="delay-1">
             <button
               onClick={apply}
-              className="group relative w-full h-full overflow-hidden rounded-[28px] bg-emerald-600 p-8 sm:p-10 text-left text-white"
+              className="group relative w-full h-full overflow-hidden rounded-[28px] bg-emerald-600 p-6 sm:p-10 text-left text-white"
             >
               <span aria-hidden className="absolute -right-20 -bottom-20 w-72 h-72 rounded-full bg-white/20 blur-3xl transition-transform duration-700 group-hover:scale-125" />
               <UserPlus className="relative w-10 h-10 text-white" />
