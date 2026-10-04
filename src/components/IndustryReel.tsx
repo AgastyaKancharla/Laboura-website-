@@ -6,7 +6,7 @@ import { INDUSTRIES } from "../data/industries";
 const FEATURED_IDS = ["supermarket", "restaurant", "warehouse", "cleaning", "security"];
 const FEATURED = FEATURED_IDS.map((id) => INDUSTRIES.find((i) => i.id === id)!);
 const MORE = INDUSTRIES.filter((i) => !FEATURED_IDS.includes(i.id));
-const SLIDE_MS = 5500;
+const SLIDE_MS = 4000;
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 const pad = (n: number) => String(n).padStart(2, "0");

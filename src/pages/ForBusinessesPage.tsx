@@ -157,7 +157,7 @@ export function ForBusinessesPage({ onNavigate, onOpenCallModal }: ForBusinesses
             <div>
               <div className="text-2xl font-black text-[#0A1628] font-['Montserrat']">30-Day Free Replacement</div>
               <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                If any placed worker leaves or is not the right operational fit within 30 days, we dispatch an immediate replacement at zero charge.
+                If a placed worker leaves or isn't the right fit within 30 days of the day we fill the position, we send a replacement at no extra charge.
               </p>
             </div>
             <div className="text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5">

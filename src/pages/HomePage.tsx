@@ -617,7 +617,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                 <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#0066FF] text-white">
                   For Store Operators
                 </span>
-                <span className="text-xs font-bold text-[#0066FF]">Guaranteed Shift Fill</span>
+                <span className="text-xs font-bold text-[#0066FF]">30-Day Replacement Promise</span>
               </div>
 
               {/* Graphic Representation */}
@@ -640,7 +640,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-[#0066FF]" />
-                  <span>Unconditional 30-day replacement if someone leaves</span>
+                  <span>Free replacement if a worker leaves within 30 days of the position being filled</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-[#0066FF]" />
@@ -655,13 +655,13 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                 <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-600 text-white">
                   For Job Seekers
                 </span>
-                <span className="text-xs font-bold text-emerald-700">Pay Only When Placed</span>
+                <span className="text-xs font-bold text-emerald-700">Job or Your Money Back</span>
               </div>
 
               {/* Graphic Representation */}
               <div className="p-6 rounded-2xl bg-white border border-emerald-200 text-center space-y-3">
                 <div className="text-3xl font-black text-emerald-600 font-mono">Guaranteed Job Placement</div>
-                <div className="text-xs text-gray-500">Transparent placement terms applied only when you get hired</div>
+                <div className="text-xs text-gray-500">Get placed in a job, or get your money refunded</div>
                 <div className="w-full h-3 rounded-full bg-emerald-100 overflow-hidden">
                   <div className="h-full bg-emerald-500 w-full" />
                 </div>
@@ -674,7 +674,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
               <div className="space-y-2.5 text-xs text-gray-700">
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500" />
-                  <span>No upfront fees — fee applies only upon verified job placement</span>
+                  <span>Full refund if we can't place you in a job</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500" />

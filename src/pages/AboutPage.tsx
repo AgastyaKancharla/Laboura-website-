@@ -17,7 +17,7 @@ import {
   Users,
   Wrench,
   X,
-  Zap,
+  IndianRupee,
 } from "lucide-react";
 
 interface AboutPageProps {
@@ -269,8 +269,8 @@ const BELIEFS = [
 const PROMISES = [
   { icon: ShieldCheck, title: "Verified", body: "ID and background checks before every placement." },
   { icon: MapPin, title: "Local", body: "Workers matched from your own neighbourhood." },
-  { icon: Zap, title: "Fast", body: "Same-day dispatch when a shift opens up." },
-  { icon: RefreshCw, title: "Guaranteed", body: "Free replacement within 30 days if a placement isn't right." },
+  { icon: RefreshCw, title: "Replaced free", body: "For businesses: if a worker leaves within 30 days of the day we fill the position, we replace them at no cost." },
+  { icon: IndianRupee, title: "Job or refund", body: "For job seekers: get placed in a job, or get your money back in full." },
 ];
 
 const BUSINESS_PAIN = [
@@ -496,7 +496,7 @@ export function AboutPage({ onNavigate, onOpenCallModal }: AboutPageProps) {
       <section className="py-20 sm:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16 items-center">
           <Reveal>
-            <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Laboura today</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF]">Our promise</span>
             <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat'] leading-[1.08]">
               The fix he wished he'd had.
             </h2>

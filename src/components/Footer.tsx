@@ -158,11 +158,11 @@ export function Footer({ onNavigate, onOpenCallModal }: FooterProps) {
               </li>
               <li className="flex items-start space-x-3">
                 <Award size={18} className="text-amber-500 mt-0.5 shrink-0" />
-                <span className="text-xs text-gray-600">30-Day Free Replacement Guarantee</span>
+                <span className="text-xs text-gray-600">30-Day Free Replacement for Businesses</span>
               </li>
               <li className="flex items-start space-x-3">
                 <Scale size={18} className="text-blue-500 mt-0.5 shrink-0" />
-                <span className="text-xs text-gray-600">Direct Employer Terms (Zero Wage Cuts)</span>
+                <span className="text-xs text-gray-600">Job Placement or Full Refund for Job Seekers</span>
               </li>
               <li className="flex items-start space-x-3">
                 <Clock size={18} className="text-purple-500 mt-0.5 shrink-0" />

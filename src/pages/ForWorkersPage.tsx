@@ -144,16 +144,16 @@ export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPagePr
 
           <div className="rounded-3xl bg-purple-50/70 border border-purple-200 p-8 flex flex-col justify-between space-y-6">
             <div className="w-14 h-14 rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-md">
-              <Heart className="w-7 h-7" />
+              <ShieldCheck className="w-7 h-7" />
             </div>
             <div>
-              <div className="text-2xl font-black text-[#0A1628] font-['Montserrat']">Direct Respect & Payroll</div>
+              <div className="text-2xl font-black text-[#0A1628] font-['Montserrat']">Job or Your Money Back</div>
               <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                You work directly on the store's official payroll with standard statutory labor protections, dignity, and consistent hours.
+                We stand behind every job seeker we take on. If we can't place you in a job, we refund your money in full.
               </p>
             </div>
             <div className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-1.5">
-              <Check className="w-4 h-4" /> Dignity in Physical Labor
+              <Check className="w-4 h-4" /> Placement Guarantee
             </div>
           </div>
 
