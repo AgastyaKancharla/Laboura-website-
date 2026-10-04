@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageId } from "../components/Navbar";
 import { ImageStreamHero, StreamImage, CorridorPath } from "@/components/ui/image-stream-hero";
+import { IndustryReel } from "../components/IndustryReel";
+import { Reveal } from "../components/Reveal";
 import {
   PhoneCall,
   ShieldCheck,
@@ -9,14 +11,6 @@ import {
   CheckCircle2,
   Users,
   Store,
-  UtensilsCrossed,
-  Fuel,
-  Sparkles,
-  Scissors,
-  Paintbrush,
-  Truck,
-  Trees,
-  Theater,
   Briefcase,
   MapPin,
   RefreshCw,
@@ -40,36 +34,6 @@ import {
 interface HomePageProps {
   onNavigate: (page: PageId) => void;
   onOpenCallModal: (role?: "general" | "contractor" | "worker" | "investor") => void;
-}
-
-/* ── Scroll Reveal Hook ─────────────────────────────────────── */
-function useReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("revealed");
-          io.unobserve(el);
-        }
-      },
-      { threshold: 0.08 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return ref;
-}
-
-function Reveal({ children, className = "", delay = "" }: { children: React.ReactNode; className?: string; delay?: string }) {
-  const ref = useReveal();
-  return (
-    <div ref={ref} className={`reveal-on-scroll ${delay} ${className}`}>
-      {children}
-    </div>
-  );
 }
 
 /* ── 20 COMPLETELY DISTINCT SERVICE IMAGES (10 Left, 10 Right - Zero Duplicates) ── */
@@ -179,90 +143,6 @@ const RIGHT_SERVICE_IMAGES: StreamImage[] = [
   },
 ];
 
-/* ── 10 Picture-First Visual Trades ─────────────────────────── */
-const pictureTrades = [
-  {
-    id: "supermarket",
-    title: "Supermarket & Retail",
-    badge: "Shelf Stockers & Cashiers",
-    icon: Store,
-    img: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80",
-    color: "from-blue-600 to-cyan-500",
-  },
-  {
-    id: "restaurant",
-    title: "Dining & Commercial Kitchen",
-    badge: "Line Prep, Cooks & Bussers",
-    icon: UtensilsCrossed,
-    img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-    color: "from-orange-500 to-amber-500",
-  },
-  {
-    id: "warehouse",
-    title: "Warehouses & Freight",
-    badge: "Palletizers & Forklift Hands",
-    icon: Truck,
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
-    color: "from-purple-600 to-indigo-500",
-  },
-  {
-    id: "petrol",
-    title: "Forecourts & Fuel Stations",
-    badge: "Pump Crews & Cashiers",
-    icon: Fuel,
-    img: "https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=800&q=80",
-    color: "from-rose-500 to-pink-500",
-  },
-  {
-    id: "cleaning",
-    title: "Facilities & Sanitation",
-    badge: "Floor Buffers & Cleaners",
-    icon: Sparkles,
-    img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
-    color: "from-teal-600 to-emerald-500",
-  },
-  {
-    id: "security",
-    title: "Storefront Security",
-    badge: "Access Watch & Door Guards",
-    icon: ShieldCheck,
-    img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80",
-    color: "from-slate-700 to-gray-600",
-  },
-  {
-    id: "salons",
-    title: "Salons & Grooming",
-    badge: "Barbers & Salon Assistants",
-    icon: Scissors,
-    img: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80",
-    color: "from-pink-600 to-rose-500",
-  },
-  {
-    id: "maintenance",
-    title: "Shop Painters & Repair",
-    badge: "Drywall, Rollers & Handymen",
-    icon: Paintbrush,
-    img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
-    color: "from-amber-600 to-yellow-500",
-  },
-  {
-    id: "landscaping",
-    title: "Commercial Grounds",
-    badge: "Mower Crews & Turf Care",
-    icon: Trees,
-    img: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80",
-    color: "from-emerald-600 to-green-500",
-  },
-  {
-    id: "events",
-    title: "Event Staging & Venues",
-    badge: "Stagehands & Rigging Crews",
-    icon: Theater,
-    img: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80",
-    color: "from-indigo-600 to-blue-500",
-  },
-];
-
 const testimonials = [
   {
     quote: "Laboura filled our overnight grocery stocking crew within 4 hours. The workers were punctual, pre-screened, and dependable. Essential service for our store.",
@@ -288,19 +168,31 @@ const testimonials = [
 ];
 
 /* ── Custom Corridor Geometry for Mobile vs Desktop Cinematic Scale ── */
+// Portrait phones run the rails vertically: landscape photos stream up and down
+// out of the title, spaced so each card shows roughly half its photo in flight.
 const MOBILE_PATH: CorridorPath = {
-  perspective: 20,
-  cardWidth: 54,
-  cardHeight: 84,
-  cardRadius: 1.6,
-  birthHeight: 12,
-  exitHeight: 185,
-  railBirth: -14,
-  railExit: 72,
-  fan: 2.6,
-  turnBirth: 4,
-  turnExit: 28,
-  stops: 24,
+  perspective: 60,
+  cardWidth: 78,
+  cardHeight: 52,
+  cardRadius: 2.4,
+  birthHeight: 6,
+  exitHeight: 150,
+  railBirth: 8,
+  railExit: 50,
+  fan: 1.8,
+  turnBirth: 0,
+  turnExit: 4,
+  stops: 32,
+};
+
+// Squat viewports (short phones, small tablets) have less height to travel, so
+// cards get smaller and the rails spread wider to keep the same reveal.
+const MOBILE_COMPACT_PATH: CorridorPath = {
+  ...MOBILE_PATH,
+  birthHeight: 4.5,
+  exitHeight: 115,
+  railBirth: 10,
+  railExit: 70,
 };
 
 const DESKTOP_PATH: CorridorPath = {
@@ -320,11 +212,23 @@ const DESKTOP_PATH: CorridorPath = {
 
 export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
+  const [compactCorridor, setCompactCorridor] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-aspect-ratio: 10/18)");
+    const update = () => setCompactCorridor(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolledPastHero(window.scrollY > 300);
+      // Hide again near the bottom so the bar never covers the footer, which has its own actions.
+      const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 160;
+      setScrolledPastHero(window.scrollY > window.innerHeight * 0.75 && !nearBottom);
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -393,57 +297,70 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
         </div>
 
         {/* ── MOBILE LAYOUT (< md) ── */}
-        <div className="md:hidden relative w-full h-[520px] sm:h-[580px] flex flex-col justify-between py-5 px-4 overflow-hidden">
-          {/* Images in background COVERING THE ENTIRE MOBILE SCREEN - Full-bleed height & width */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
+        {/* The section sits under the fixed 5rem navbar, so 100svh fills exactly one screen. */}
+        <div className="md:hidden relative w-full h-[100svh] min-h-[560px] overflow-hidden bg-[#0A1628]">
+          <div className="absolute inset-x-0 top-20 bottom-0 pointer-events-none">
             <ImageStreamHero
               leftImages={LEFT_SERVICE_IMAGES}
               rightImages={RIGHT_SERVICE_IMAGES}
-              cards={8}
+              orientation="vertical"
+              cards={compactCorridor ? 9 : 10}
               speed={16}
-              axis={46}
-              path={MOBILE_PATH}
-              className="w-full h-full"
+              axis={50}
+              path={compactCorridor ? MOBILE_COMPACT_PATH : MOBILE_PATH}
+              className="absolute inset-0"
             />
+
+            {/* Title-card glow: darkens only the band behind the copy so photos stay vivid above and below. */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_34%_at_50%_50%,rgba(10,22,40,0.94)_0%,rgba(10,22,40,0.8)_45%,rgba(10,22,40,0)_100%)]" />
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#0A1628]/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0A1628]/80 to-transparent" />
           </div>
 
-          {/* Top: Eyebrow pill on top layer */}
-          <div className="relative z-10 w-full flex justify-center pt-2 pointer-events-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 border border-blue-200 text-[11px] font-bold uppercase tracking-wider text-[#0066FF] shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-pulse" />
+          <div className="relative z-10 h-full pt-20 flex flex-col items-center justify-center text-center px-5">
+            <div
+              className="animate-text-reveal [@media(max-height:700px)]:hidden inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[11px] font-bold uppercase tracking-[0.18em] text-[#00D4FF]"
+              style={{ animationFillMode: "both", animationDelay: "150ms" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF] animate-pulse" />
               <span>On-Demand Frontline Network</span>
             </div>
-          </div>
 
-          {/* Middle: Heading & Subtitle on top layer directly (NO white box behind text) */}
-          <div className="relative z-10 w-full text-center flex flex-col items-center my-auto py-4 pointer-events-auto">
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.05] text-[#0A1628] font-['Montserrat'] select-none drop-shadow-[0_2px_14px_rgba(255,255,255,1)]">
+            <h1
+              className="animate-text-reveal mt-4 text-[2.55rem] sm:text-5xl font-black tracking-tight leading-[1.04] text-white font-['Montserrat'] select-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+              style={{ animationFillMode: "both", animationDelay: "350ms" }}
+            >
               Future is<br />
-              built on Laboura.
+              built on <span className="text-gradient-blue">Laboura.</span>
             </h1>
 
-            <p className="mt-3 text-sm text-gray-800 font-semibold max-w-xs mx-auto leading-relaxed text-balance drop-shadow-[0_1px_8px_rgba(255,255,255,1)]">
-              The dedicated frontline workforce network connecting local businesses with verified staff living in the same community across 10 essential physical industries.
+            <p
+              className="animate-text-reveal mt-3 text-[15px] text-slate-200 font-medium max-w-[20rem] leading-relaxed text-balance drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]"
+              style={{ animationFillMode: "both", animationDelay: "600ms" }}
+            >
+              Verified frontline staff from your own neighbourhood, across 10 essential industries.
             </p>
-          </div>
 
-          {/* Bottom: The Two Buttons on top layer */}
-          <div className="relative z-10 w-full flex flex-col gap-2.5 max-w-xs mx-auto pb-4 pointer-events-auto">
-            <button
-              onClick={() => onOpenCallModal("general")}
-              className="w-full py-3.5 px-5 rounded-full font-bold text-sm text-white bg-[#0A1628] hover:bg-[#0066FF] shadow-lg shadow-black/20 flex items-center justify-center gap-2 active:scale-95"
+            <div
+              className="animate-text-reveal mt-6 w-full max-w-sm grid grid-cols-2 gap-2.5"
+              style={{ animationFillMode: "both", animationDelay: "850ms" }}
             >
-              <PhoneCall className="w-4 h-4 text-[#00D4FF]" />
-              <span>Call Dispatch</span>
-            </button>
+              <button
+                onClick={() => onOpenCallModal("general")}
+                className="py-3.5 px-4 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#0066FF] to-[#00B4FF] shadow-lg shadow-[#0066FF]/40 flex items-center justify-center gap-2 active:scale-95 transition-transform"
+              >
+                <PhoneCall className="w-4 h-4" />
+                <span>Call Dispatch</span>
+              </button>
 
-            <button
-              onClick={() => onNavigate("about")}
-              className="w-full py-3 px-5 rounded-full font-bold text-xs text-gray-800 bg-white/95 hover:bg-white border border-gray-300 shadow-sm flex items-center justify-center gap-1.5 active:scale-95"
-            >
-              <span>Know More</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#0066FF]" />
-            </button>
+              <button
+                onClick={() => onNavigate("about")}
+                className="py-3.5 px-4 rounded-full font-bold text-sm text-white bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
+              >
+                <span>Know More</span>
+                <ArrowRight className="w-4 h-4 text-[#00D4FF]" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -671,69 +588,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
       </section>
 
 
-      {/* ═══════════════════════════════════════════════════════════════
-          CHAPTER 3: PICTURE-FIRST 10 TRADES (SHOWING WHAT WE DO VISUALLY)
-          Large visual cards: hands chopping, hands stocking, forklift, mower
-          ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-16 sm:py-24 bg-[#FAFAFC] w-full border-b border-gray-100">
-        <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
-          <Reveal>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-14">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
-                  Frontline Trade Coverage
-                </span>
-                <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat']">
-                  10 Industries in Pictures
-                </h2>
-              </div>
-              <button
-                onClick={() => onNavigate("roles")}
-                className="px-6 py-3 rounded-full bg-white border border-gray-300 text-sm font-bold text-gray-800 hover:bg-gray-50 transition-all flex items-center gap-2 shadow-sm w-fit shrink-0"
-              >
-                <span>View Full Role Matrix</span>
-                <ArrowRight className="w-4 h-4 text-[#0066FF]" />
-              </button>
-            </div>
-          </Reveal>
-
-          {/* 10 Visual Picture Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 w-full">
-            {pictureTrades.map((trade) => (
-              <Reveal key={trade.id}>
-                <div 
-                  onClick={() => onNavigate("roles")}
-                  className="rounded-3xl bg-white border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between h-full group"
-                >
-                  <div className="relative h-52 overflow-hidden">
-                    <img
-                      src={trade.img}
-                      alt={trade.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                    
-                    <div className="absolute top-3 left-3 w-9 h-9 rounded-xl bg-white/90 backdrop-blur-md flex items-center justify-center text-gray-900 shadow-sm">
-                      <trade.icon className="w-5 h-5 text-[#0066FF]" />
-                    </div>
-
-                    <div className="absolute bottom-3 left-3 right-3 text-white">
-                      <h4 className="font-bold text-sm text-white leading-tight">{trade.title}</h4>
-                      <p className="text-[11px] text-gray-300 mt-0.5">{trade.badge}</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 bg-white border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#0066FF] group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
-                    <span>Deploy Crew</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <IndustryReel onNavigate={onNavigate} />
 
 
       {/* ═══════════════════════════════════════════════════════════════
@@ -764,7 +619,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                 <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#0066FF] text-white">
                   For Store Operators
                 </span>
-                <span className="text-xs font-bold text-[#0066FF]">Guaranteed Shift Fill</span>
+                <span className="text-xs font-bold text-[#0066FF]">30-Day Replacement Promise</span>
               </div>
 
               {/* Graphic Representation */}
@@ -787,7 +642,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-[#0066FF]" />
-                  <span>Unconditional 30-day replacement if someone leaves</span>
+                  <span>Free replacement if a worker leaves within 30 days of the position being filled</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-[#0066FF]" />
@@ -802,13 +657,13 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
                 <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-600 text-white">
                   For Job Seekers
                 </span>
-                <span className="text-xs font-bold text-emerald-700">Pay Only When Placed</span>
+                <span className="text-xs font-bold text-emerald-700">Job or Your Money Back</span>
               </div>
 
               {/* Graphic Representation */}
               <div className="p-6 rounded-2xl bg-white border border-emerald-200 text-center space-y-3">
                 <div className="text-3xl font-black text-emerald-600 font-mono">Guaranteed Job Placement</div>
-                <div className="text-xs text-gray-500">Transparent placement terms applied only when you get hired</div>
+                <div className="text-xs text-gray-500">Get placed in a job, or get your money refunded</div>
                 <div className="w-full h-3 rounded-full bg-emerald-100 overflow-hidden">
                   <div className="h-full bg-emerald-500 w-full" />
                 </div>
@@ -821,7 +676,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
               <div className="space-y-2.5 text-xs text-gray-700">
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500" />
-                  <span>No upfront fees — fee applies only upon verified job placement</span>
+                  <span>Full refund if we can't place you in a job</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500" />
@@ -1004,7 +859,11 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
           MOBILE-FIRST STICKY ACTION BAR (VISIBLE ON MOBILE ONLY)
           Guarantees mobile users always have 1-tap dispatch access
           ═══════════════════════════════════════════════════════════════ */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-gray-200 p-3 flex gap-2 shadow-2xl">
+      <div
+        className={`sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-gray-200 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex gap-2 shadow-2xl transition-all duration-300 ${
+          scrolledPastHero ? "translate-y-0 visible" : "translate-y-full invisible"
+        }`}
+      >
         <a
           href="tel:18005226872"
           className="flex-1 py-3 px-4 rounded-xl bg-[#0A1628] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md active:scale-95"

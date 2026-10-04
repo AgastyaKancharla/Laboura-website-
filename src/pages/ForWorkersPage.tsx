@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { PageId } from "../components/Navbar";
+import { Reveal } from "../components/Reveal";
+import { FAQ, FaqItem } from "../components/FAQ";
+import { INDUSTRIES } from "../data/industries";
 import {
-  ShieldCheck,
-  MapPin,
-  CheckCircle2,
-  PhoneCall,
-  Store,
-  UtensilsCrossed,
-  Fuel,
-  Sparkles,
-  Scissors,
+  ArrowDown,
   ArrowRight,
   BadgeCheck,
-  DollarSign,
+  Briefcase,
   Check,
-  Heart,
+  FileText,
+  Home,
+  IndianRupee,
+  MapPin,
   Phone,
-  Truck,
+  PhoneCall,
+  Smartphone,
+  UserPlus,
+  Wallet,
 } from "lucide-react";
 
 interface ForWorkersPageProps {
@@ -24,212 +25,400 @@ interface ForWorkersPageProps {
   onOpenCallModal: (role?: "general" | "contractor" | "worker" | "investor") => void;
 }
 
-export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPageProps) {
-  const visualJobs = [
-    {
-      title: "Supermarket & Retail",
-      role: "Shelf Stockers, Cashiers & Cart Handlers",
-      img: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=700&q=80",
-      icon: Store,
-      badge: "Local Storefronts",
-    },
-    {
-      title: "Commercial Kitchens",
-      role: "Line Cooks, Dishwashers & Food Runners",
-      img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=700&q=80",
-      icon: UtensilsCrossed,
-      badge: "Regular Kitchen Shifts",
-    },
-    {
-      title: "Petrol Stations",
-      role: "Pump Attendants & Shift Staff",
-      img: "https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=700&q=80",
-      icon: Fuel,
-      badge: "Flexible Schedules",
-    },
-    {
-      title: "Warehouses & Freight",
-      role: "Freight Handlers, Forklift & Unloaders",
-      img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=700&q=80",
-      icon: Truck,
-      badge: "Steady Hours",
-    },
-    {
-      title: "Facilities & Sanitation",
-      role: "Commercial Cleaners & Sanitizers",
-      img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=80",
-      icon: Sparkles,
-      badge: "Evening & Day Shifts",
-    },
-    {
-      title: "Salons & Grooming",
-      role: "Barbers, Stylists & Assistants",
-      img: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=700&q=80",
-      icon: Scissors,
-      badge: "Licensed Trades",
-    },
-  ];
+/* ── Rotating guarantee seal ─────────────────────────────────── */
+
+function GuaranteeSeal() {
+  const ring = "JOB OR YOUR MONEY BACK • JOB OR YOUR MONEY BACK • ";
+  return (
+    <div className="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] mx-auto">
+      <div aria-hidden className="absolute inset-0 rounded-full bg-emerald-400/30 blur-3xl" />
+      <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full animate-[spin_24s_linear_infinite] motion-reduce:animate-none" aria-hidden>
+        <defs>
+          <path id="seal-ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+        </defs>
+        <circle cx="100" cy="100" r="96" fill="#064E3B" />
+        <circle cx="100" cy="100" r="64" fill="none" stroke="rgba(255,255,255,0.15)" strokeDasharray="2 4" />
+        <text className="fill-emerald-200" style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: 2.2 }}>
+          <textPath href="#seal-ring">{ring}</textPath>
+        </text>
+      </svg>
+      <div className="absolute inset-[22%] rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex flex-col items-center justify-center text-center shadow-[inset_0_2px_12px_rgba(255,255,255,0.35)]">
+        <IndianRupee className="w-9 h-9 sm:w-11 sm:h-11 text-white" />
+        <span className="mt-1 text-white font-black font-['Montserrat'] text-sm sm:text-base leading-tight">
+          Full refund
+        </span>
+        <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-50 leading-tight px-4">
+          if we can't place you
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Industry picker ─────────────────────────────────────────── */
+
+function WorkPicker({ onApply }: { onApply: () => void }) {
+  const [selected, setSelected] = useState(INDUSTRIES[0].id);
+  const ind = INDUSTRIES.find((i) => i.id === selected)!;
+  const roles = ind.roles.split(/,\s*|\s*&\s*/).filter(Boolean);
 
   return (
-    <div className="w-full bg-[#FAFAFC] text-[#0A1628] font-['Plus_Jakarta_Sans'] min-h-screen">
-      
-      {/* ── Visual Hero Banner ── */}
-      <section className="py-20 px-5 sm:px-8 md:px-14 lg:px-20 border-b border-gray-100 bg-white">
-        <div className="w-full text-center max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold uppercase tracking-wider text-emerald-700">
-            <BadgeCheck className="w-4 h-4 text-emerald-600" />
-            <span>For Verified Local Job Seekers • Success-Based Placement</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] text-[#0A1628] font-['Montserrat']">
-            Real Local Work. Direct Store Payroll. Fair Placement.
-          </h1>
-
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed">
-            Find steady frontline shifts at supermarkets, dining establishments, and warehouses in your neighborhood. You are paid directly by the employer on agreed payroll terms.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-3" role="group" aria-label="Choose a kind of work">
+        {INDUSTRIES.map((i) => {
+          const active = i.id === selected;
+          return (
             <button
-              onClick={() => onOpenCallModal("worker")}
-              className="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm text-white bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+              key={i.id}
+              onClick={() => setSelected(i.id)}
+              aria-pressed={active}
+              className={`flex flex-col items-start gap-3 p-4 rounded-2xl border text-left transition-all ${
+                active
+                  ? "bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/25 -translate-y-0.5"
+                  : "bg-white border-gray-200 text-[#0A1628] hover:border-emerald-400"
+              }`}
             >
-              <PhoneCall className="w-4 h-4" />
-              <span>Call Placement Line</span>
+              <span className={`w-10 h-10 rounded-xl flex items-center justify-center ${active ? "bg-white/20" : "bg-emerald-50 text-emerald-600"}`}>
+                <i.icon className="w-5 h-5" />
+              </span>
+              <span className="text-sm font-bold leading-tight">{i.title}</span>
             </button>
-            <button
-              onClick={() => onNavigate("roles")}
-              className="w-full sm:w-auto px-7 py-4 rounded-full font-bold text-sm text-gray-800 bg-white hover:bg-gray-50 border border-gray-300 transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95 shadow-sm"
-            >
-              <span>View Open Roles</span>
-              <ArrowRight className="w-4 h-4 text-emerald-600" />
-            </button>
+          );
+        })}
+      </div>
+
+      <div key={ind.id} className="lg:sticky lg:top-28 rounded-[28px] overflow-hidden bg-white border border-gray-200 shadow-[0_30px_60px_-30px_rgba(10,22,40,0.3)]">
+        <div className="relative h-52 sm:h-64 overflow-hidden">
+          <img src={ind.img} alt="" className="w-full h-full object-cover animate-ken-burns" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          <div className="absolute bottom-5 left-6 right-6">
+            <span className="inline-flex px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-[11px] font-bold text-white uppercase tracking-wider">
+              {ind.badge}
+            </span>
+            <h3 className="mt-2 text-2xl sm:text-3xl font-black text-white font-['Montserrat'] animate-text-reveal" style={{ animationFillMode: "both" }}>
+              {ind.title}
+            </h3>
           </div>
         </div>
-      </section>
-
-      {/* ── 3 Visual Worker Promises (Picture First) ── */}
-      <section className="py-16 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <div className="rounded-3xl bg-emerald-50/70 border border-emerald-200 p-8 flex flex-col justify-between space-y-6">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
-              <DollarSign className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="text-2xl font-black text-[#0A1628] font-['Montserrat']">Direct Store Payroll</div>
-              <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                Direct employer pay. No hidden check-cashing markups or predatory middleman cuts. You receive full agreed wages directly from the store.
-              </p>
-            </div>
-            <div className="text-xs font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1.5">
-              <Check className="w-4 h-4" /> Direct Employer Pay
-            </div>
-          </div>
-
-          <div className="rounded-3xl bg-blue-50/70 border border-blue-200 p-8 flex flex-col justify-between space-y-6">
-            <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md">
-              <MapPin className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="text-2xl font-black text-[#0A1628] font-['Montserrat']">Work Near Your Home</div>
-              <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                We match you with storefronts within your local neighborhood. Short travel times, sleep in your own bed, zero long commutes.
-              </p>
-            </div>
-            <div className="text-xs font-bold text-[#0066FF] uppercase tracking-wider flex items-center gap-1.5">
-              <Check className="w-4 h-4" /> Neighborhood Geofencing
-            </div>
-          </div>
-
-          <div className="rounded-3xl bg-purple-50/70 border border-purple-200 p-8 flex flex-col justify-between space-y-6">
-            <div className="w-14 h-14 rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-md">
-              <Heart className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="text-2xl font-black text-[#0A1628] font-['Montserrat']">Direct Respect & Payroll</div>
-              <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                You work directly on the store's official payroll with standard statutory labor protections, dignity, and consistent hours.
-              </p>
-            </div>
-            <div className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-1.5">
-              <Check className="w-4 h-4" /> Dignity in Physical Labor
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── Visual Job Categories (Pictures First) ── */}
-      <section className="py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
-        <div className="w-full space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Local Opportunities</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-[#0A1628] font-['Montserrat']">
-              Open Positions in Your Neighborhood
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            {visualJobs.map((job) => (
-              <div key={job.title} className="rounded-3xl bg-white border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg transition-all group flex flex-col justify-between">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={job.img}
-                    alt={job.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 text-[10px] font-bold text-gray-900 shadow-sm backdrop-blur-md">
-                    {job.badge}
-                  </span>
-                  <div className="absolute bottom-3 left-3 right-3 text-white flex items-center gap-2">
-                    <job.icon className="w-5 h-5 text-white shrink-0" />
-                    <span className="font-bold text-base text-white">{job.title}</span>
-                  </div>
-                </div>
-
-                <div className="p-6 flex flex-col justify-between flex-1">
-                  <p className="text-sm font-semibold text-gray-800">{job.role}</p>
-                  <button
-                    onClick={() => onOpenCallModal("worker")}
-                    className="mt-4 w-full py-2.5 rounded-xl bg-gray-50 hover:bg-emerald-600 hover:text-white border border-gray-200 hover:border-emerald-600 text-gray-700 font-bold text-xs transition-all flex items-center justify-center gap-2"
-                  >
-                    <span>Apply for Shifts (Free)</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
+        <div className="p-6 sm:p-8">
+          <div className="text-xs font-bold uppercase tracking-wider text-gray-400">Jobs you can apply for</div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {roles.map((r, idx) => (
+              <span
+                key={r}
+                className="animate-bubble-in px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-sm font-semibold text-emerald-800"
+                style={{ animationDelay: `${120 + idx * 70}ms` }}
+              >
+                {r}
+              </span>
             ))}
           </div>
+          <div className="mt-6 text-xs font-bold uppercase tracking-wider text-gray-400">What the work involves</div>
+          <ul className="mt-3 space-y-2.5">
+            {ind.tasks.map((t, idx) => (
+              <li
+                key={t}
+                className="animate-bubble-in flex items-start gap-3 text-[15px] text-gray-700"
+                style={{ animationDelay: `${300 + idx * 90}ms` }}
+              >
+                <span className="mt-0.5 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 text-white stroke-[3]" />
+                </span>
+                {t}
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={onApply}
+            className="mt-7 w-full py-4 rounded-2xl bg-[#0A1628] hover:bg-emerald-600 text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors"
+          >
+            Apply for {ind.title.toLowerCase()} work
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Page ─────────────────────────────────────────────────────── */
+
+const JOURNEY = [
+  { icon: UserPlus, title: "Register", body: "Call us or apply. Tell us the work you can do and where you live." },
+  { icon: BadgeCheck, title: "Get verified", body: "Show a government photo ID. We check it so businesses can trust you." },
+  { icon: MapPin, title: "Get matched", body: "We find you a job at a business close to your home." },
+  { icon: Briefcase, title: "Start work", body: "Join the business and get paid by them directly." },
+];
+
+const CHECKLIST = [
+  { icon: FileText, text: "A government photo ID, such as Aadhaar", optional: false },
+  { icon: Smartphone, text: "A phone number we can reach you on", optional: false },
+  { icon: Home, text: "The area where you live", optional: false },
+  { icon: Briefcase, text: "Details of any past work", optional: true },
+];
+
+const FAQS: FaqItem[] = [
+  { q: "What if I don't get a job?", a: "You get your money back in full. That's our promise to every job seeker we take on." },
+  { q: "How far from home will I work?", a: "We look for jobs near where you live, so you spend less time and money travelling." },
+  { q: "Who pays my salary?", a: "The business you work for pays you directly, just like the rest of their staff." },
+  { q: "What documents do I need?", a: "A government photo ID, such as Aadhaar, and a phone number we can reach you on." },
+  { q: "Do I need experience?", a: "Not always. Tell us what you've done before, and we'll match you with work that suits you." },
+];
+
+export function ForWorkersPage({ onNavigate, onOpenCallModal }: ForWorkersPageProps) {
+  const apply = () => onOpenCallModal("worker");
+
+  return (
+    <div className="w-full bg-[#FAFAFC] text-[#0A1628] font-['Plus_Jakarta_Sans']">
+
+      {/* ═══ HERO ═══ */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white border-b border-gray-100">
+        <div aria-hidden className="absolute -top-32 -right-32 w-[36rem] h-[36rem] rounded-full bg-emerald-200/40 blur-[120px] animate-aura" />
+        <div className="relative px-5 sm:px-8 md:px-14 lg:px-20 pt-32 pb-20 lg:pt-36 lg:pb-28 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+          <div>
+            <div
+              className="animate-text-reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-emerald-200 text-xs font-bold uppercase tracking-wider text-emerald-700 shadow-sm"
+              style={{ animationFillMode: "both", animationDelay: "80ms" }}
+            >
+              <BadgeCheck className="w-4 h-4" />
+              For job seekers
+            </div>
+            <h1
+              className="animate-text-reveal mt-6 text-[2.6rem] leading-[1.03] sm:text-6xl lg:text-7xl font-black tracking-tight font-['Montserrat']"
+              style={{ animationFillMode: "both", animationDelay: "200ms" }}
+            >
+              Work near home.
+              <br />
+              <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+                A job, or your money back.
+              </span>
+            </h1>
+            <p
+              className="animate-text-reveal mt-6 text-lg text-gray-600 leading-relaxed max-w-xl"
+              style={{ animationFillMode: "both", animationDelay: "350ms" }}
+            >
+              Laboura finds you jobs at shops, restaurants, warehouses and more, close to where you live. If we can't
+              place you in a job, we refund your money in full.
+            </p>
+            <div
+              className="animate-text-reveal mt-8 flex flex-col sm:flex-row gap-3"
+              style={{ animationFillMode: "both", animationDelay: "500ms" }}
+            >
+              <button
+                onClick={apply}
+                className="px-7 py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25 transition-colors"
+              >
+                <PhoneCall className="w-5 h-5" />
+                Apply now
+              </button>
+              <a
+                href="#worker-jobs"
+                className="group px-7 py-4 rounded-full bg-white border border-gray-300 hover:border-emerald-500 text-[#0A1628] font-bold text-base flex items-center justify-center gap-2 transition-colors"
+              >
+                See the work
+                <ArrowDown className="w-4 h-4 text-emerald-600 transition-transform group-hover:translate-y-0.5" />
+              </a>
+            </div>
+            <ul
+              className="animate-text-reveal mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl"
+              style={{ animationFillMode: "both", animationDelay: "650ms" }}
+            >
+              {[
+                { icon: MapPin, text: "Jobs near your home" },
+                { icon: Wallet, text: "Paid directly by the business" },
+                { icon: IndianRupee, text: "Job or full refund" },
+              ].map((t) => (
+                <li key={t.text} className="flex items-center gap-3 rounded-2xl bg-white border border-gray-200 px-4 py-3">
+                  <t.icon className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span className="text-sm font-semibold text-gray-800">{t.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="animate-text-reveal" style={{ animationFillMode: "both", animationDelay: "450ms" }}>
+            <GuaranteeSeal />
+          </div>
         </div>
       </section>
 
-      {/* ── Direct Worker Dial CTA ── */}
-      <section className="py-20 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0A1628] text-white text-center">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <div className="w-14 h-14 rounded-full bg-emerald-600/30 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-400/40">
-            <PhoneCall className="w-7 h-7" />
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white font-['Montserrat']">
-            Ready to Work? Call Placement Directly
+      {/* ═══ JOURNEY ═══ */}
+      <section className="py-20 sm:py-28 bg-white border-b border-gray-100">
+        <Reveal className="px-5 sm:px-8 md:px-14 lg:px-20 max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">How it works</span>
+          <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
+            Four steps from today to your first day.
           </h2>
-          <p className="text-base text-slate-300">
-            No long applications. Our coordinators verify your ID and right-to-work, then match you with shifts starting this week.
+        </Reveal>
+
+        <div className="mt-12 flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible scroll-snap-x px-5 sm:px-8 md:px-14 lg:px-20 pb-4">
+          {JOURNEY.map((step, i) => (
+            <Reveal key={step.title} delay={`delay-${i}`} className="scroll-snap-center shrink-0 w-[78%] sm:w-[45%] lg:w-auto">
+              <div className="relative h-full rounded-[28px] bg-[#FAFAFC] border border-gray-200 p-7 overflow-hidden hover-card-rise">
+                <span aria-hidden className="absolute -right-2 -top-6 text-[7rem] font-black font-['Montserrat'] leading-none text-emerald-600/[0.08] select-none">
+                  {i + 1}
+                </span>
+                <span className="relative w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-600/25">
+                  <step.icon className="w-7 h-7" />
+                </span>
+                <div className="relative mt-6 font-mono text-xs font-bold text-emerald-600">Step {i + 1}</div>
+                <h3 className="relative mt-1 text-2xl font-black font-['Montserrat']">{step.title}</h3>
+                <p className="relative mt-2 text-[15px] text-gray-600 leading-relaxed">{step.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ HOW THE GUARANTEE WORKS ═══ */}
+      <section className="relative overflow-hidden py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#052E25] text-white">
+        <div aria-hidden className="absolute -bottom-40 -left-20 w-[36rem] h-[36rem] rounded-full bg-emerald-500/20 blur-[140px]" />
+        <Reveal className="relative text-center max-w-3xl mx-auto">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-300">Our promise</span>
+          <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08] text-white">
+            Either way, you don't lose.
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-emerald-100/80">
+            Once you register with Laboura, there are only two ways it ends.
           </p>
-          <div className="pt-2">
+        </Reveal>
+
+        <div className="relative mt-14 max-w-4xl mx-auto">
+          <Reveal className="flex justify-center">
+            <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-white text-[#0A1628] font-bold shadow-xl">
+              <UserPlus className="w-5 h-5 text-emerald-600" />
+              You register with Laboura
+            </div>
+          </Reveal>
+
+          <Reveal className="relative h-16 sm:h-20">
+            <div className="absolute left-1/2 top-0 h-1/2 w-px bg-emerald-300/60" />
+            <div className="absolute left-1/4 right-1/4 top-1/2 h-px bg-emerald-300/60 animate-draw-across" />
+            <div className="absolute left-1/4 top-1/2 h-1/2 w-px bg-emerald-300/60" />
+            <div className="absolute right-1/4 top-1/2 h-1/2 w-px bg-emerald-300/60" />
+          </Reveal>
+
+          <div className="grid grid-cols-2 gap-3 sm:gap-8">
+            <Reveal delay="delay-1">
+              <div className="h-full rounded-[24px] bg-emerald-500 p-5 sm:p-8 text-center">
+                <Briefcase className="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-white" />
+                <div className="mt-3 text-lg sm:text-2xl font-black font-['Montserrat'] text-white">You get a job</div>
+                <p className="mt-2 text-xs sm:text-sm text-emerald-50">You start work at a business near your home.</p>
+              </div>
+            </Reveal>
+            <Reveal delay="delay-2">
+              <div className="h-full rounded-[24px] bg-white/10 border border-white/20 p-5 sm:p-8 text-center">
+                <IndianRupee className="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-emerald-300" />
+                <div className="mt-3 text-lg sm:text-2xl font-black font-['Montserrat'] text-white">Or you get a full refund</div>
+                <p className="mt-2 text-xs sm:text-sm text-emerald-100/80">If we can't place you, your money comes back in full.</p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ WORK PICKER ═══ */}
+      <section id="worker-jobs" className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100 scroll-mt-20">
+        <Reveal className="max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Find your kind of work</span>
+          <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
+            What kind of work suits you?
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-gray-600">Tap an industry to see the jobs and what the work involves.</p>
+        </Reveal>
+        <Reveal className="mt-12" delay="delay-1">
+          <WorkPicker onApply={apply} />
+        </Reveal>
+      </section>
+
+      {/* ═══ WHAT TO BRING ═══ */}
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-white border-b border-gray-100">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <Reveal>
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Before you apply</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
+              All you need to get started.
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed">
+              No long forms and no CV needed. Keep these ready and registering takes just a few minutes.
+            </p>
+          </Reveal>
+
+          <Reveal delay="delay-1">
+            <div className="relative rounded-[28px] bg-[#FAFAFC] border border-gray-200 p-6 sm:p-8">
+              <div className="flex items-center justify-between pb-5 border-b border-dashed border-gray-300">
+                <span className="font-black font-['Montserrat'] text-lg">Your checklist</span>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                  {CHECKLIST.filter((c) => !c.optional).length} must-haves
+                </span>
+              </div>
+              <ul className="divide-y divide-gray-200">
+                {CHECKLIST.map((item, i) => (
+                  <li key={item.text} className="flex items-center gap-4 py-4">
+                    <span className="w-11 h-11 rounded-xl bg-white border border-gray-200 flex items-center justify-center shrink-0">
+                      <item.icon className="w-5 h-5 text-emerald-600" />
+                    </span>
+                    <span className="flex-1 text-[15px] font-semibold text-gray-800">
+                      {item.text}
+                      {item.optional && <span className="ml-2 text-xs font-bold text-gray-400">Optional</span>}
+                    </span>
+                    <Reveal delay={`delay-${i + 1}`}>
+                      <span className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center">
+                        <Check className="w-4 h-4 text-white stroke-[3]" />
+                      </span>
+                    </Reveal>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section className="py-20 sm:py-28 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#FAFAFC] border-b border-gray-100">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16">
+          <Reveal>
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Questions</span>
+            <h2 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.08]">
+              What job seekers ask us.
+            </h2>
+            <p className="mt-4 text-gray-600">Still unsure? Call us and talk it through with a real person.</p>
+          </Reveal>
+          <Reveal delay="delay-1">
+            <FAQ items={FAQS} accent="#059669" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ CTA ═══ */}
+      <section className="relative overflow-hidden py-20 sm:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-gradient-to-br from-emerald-600 to-teal-600 text-white">
+        <div aria-hidden className="absolute -left-24 -bottom-24 w-[30rem] h-[30rem] rounded-full bg-white/15 blur-[100px]" />
+        <Reveal className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight font-['Montserrat'] leading-[1.05] text-white">
+              Ready to start working?
+            </h2>
+            <p className="mt-3 text-lg text-white/90">Apply in a few minutes. A job near home, or your money back.</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={apply}
+              className="px-7 py-4 rounded-full bg-white text-emerald-700 font-black text-base flex items-center justify-center gap-2 shadow-xl hover:scale-105 active:scale-95 transition-transform"
+            >
+              <UserPlus className="w-5 h-5" />
+              Apply now
+            </button>
             <a
               href="tel:18005226872"
-              className="inline-flex items-center gap-3 px-9 py-5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-white font-black text-lg shadow-xl hover:scale-105 active:scale-95 transition-transform"
+              className="px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold text-base flex items-center justify-center gap-2 transition-colors"
             >
-              <Phone className="w-6 h-6" />
-              <span>Call 1 (800) 522-6872 (Press 2)</span>
+              <Phone className="w-5 h-5" />
+              Call 1 (800) 522-6872
             </a>
           </div>
-        </div>
+        </Reveal>
       </section>
-
     </div>
   );
 }
