@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { PageId } from "../components/Navbar";
 import { ImageStreamHero, StreamImage, CorridorPath } from "@/components/ui/image-stream-hero";
+import { IndustryReel } from "../components/IndustryReel";
 import {
   PhoneCall,
   ShieldCheck,
@@ -9,14 +10,6 @@ import {
   CheckCircle2,
   Users,
   Store,
-  UtensilsCrossed,
-  Fuel,
-  Sparkles,
-  Scissors,
-  Paintbrush,
-  Truck,
-  Trees,
-  Theater,
   Briefcase,
   MapPin,
   RefreshCw,
@@ -176,90 +169,6 @@ const RIGHT_SERVICE_IMAGES: StreamImage[] = [
     src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=85",
     alt: "Venue usher and crowd guidance steward",
     label: "Venue Steward",
-  },
-];
-
-/* ── 10 Picture-First Visual Trades ─────────────────────────── */
-const pictureTrades = [
-  {
-    id: "supermarket",
-    title: "Supermarket & Retail",
-    badge: "Shelf Stockers & Cashiers",
-    icon: Store,
-    img: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80",
-    color: "from-blue-600 to-cyan-500",
-  },
-  {
-    id: "restaurant",
-    title: "Dining & Commercial Kitchen",
-    badge: "Line Prep, Cooks & Bussers",
-    icon: UtensilsCrossed,
-    img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-    color: "from-orange-500 to-amber-500",
-  },
-  {
-    id: "warehouse",
-    title: "Warehouses & Freight",
-    badge: "Palletizers & Forklift Hands",
-    icon: Truck,
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
-    color: "from-purple-600 to-indigo-500",
-  },
-  {
-    id: "petrol",
-    title: "Forecourts & Fuel Stations",
-    badge: "Pump Crews & Cashiers",
-    icon: Fuel,
-    img: "https://images.unsplash.com/photo-1545459720-aac8509eb02c?auto=format&fit=crop&w=800&q=80",
-    color: "from-rose-500 to-pink-500",
-  },
-  {
-    id: "cleaning",
-    title: "Facilities & Sanitation",
-    badge: "Floor Buffers & Cleaners",
-    icon: Sparkles,
-    img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
-    color: "from-teal-600 to-emerald-500",
-  },
-  {
-    id: "security",
-    title: "Storefront Security",
-    badge: "Access Watch & Door Guards",
-    icon: ShieldCheck,
-    img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80",
-    color: "from-slate-700 to-gray-600",
-  },
-  {
-    id: "salons",
-    title: "Salons & Grooming",
-    badge: "Barbers & Salon Assistants",
-    icon: Scissors,
-    img: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80",
-    color: "from-pink-600 to-rose-500",
-  },
-  {
-    id: "maintenance",
-    title: "Shop Painters & Repair",
-    badge: "Drywall, Rollers & Handymen",
-    icon: Paintbrush,
-    img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
-    color: "from-amber-600 to-yellow-500",
-  },
-  {
-    id: "landscaping",
-    title: "Commercial Grounds",
-    badge: "Mower Crews & Turf Care",
-    icon: Trees,
-    img: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80",
-    color: "from-emerald-600 to-green-500",
-  },
-  {
-    id: "events",
-    title: "Event Staging & Venues",
-    badge: "Stagehands & Rigging Crews",
-    icon: Theater,
-    img: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80",
-    color: "from-indigo-600 to-blue-500",
   },
 ];
 
@@ -706,69 +615,7 @@ export function HomePage({ onNavigate, onOpenCallModal }: HomePageProps) {
       </section>
 
 
-      {/* ═══════════════════════════════════════════════════════════════
-          CHAPTER 3: PICTURE-FIRST 10 TRADES (SHOWING WHAT WE DO VISUALLY)
-          Large visual cards: hands chopping, hands stocking, forklift, mower
-          ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-16 sm:py-24 bg-[#FAFAFC] w-full border-b border-gray-100">
-        <div className="w-full px-5 sm:px-8 md:px-14 lg:px-20">
-          <Reveal>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-14">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#0066FF] mb-2 block">
-                  Frontline Trade Coverage
-                </span>
-                <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0A1628] font-['Montserrat']">
-                  10 Industries in Pictures
-                </h2>
-              </div>
-              <button
-                onClick={() => onNavigate("roles")}
-                className="px-6 py-3 rounded-full bg-white border border-gray-300 text-sm font-bold text-gray-800 hover:bg-gray-50 transition-all flex items-center gap-2 shadow-sm w-fit shrink-0"
-              >
-                <span>View Full Role Matrix</span>
-                <ArrowRight className="w-4 h-4 text-[#0066FF]" />
-              </button>
-            </div>
-          </Reveal>
-
-          {/* 10 Visual Picture Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 w-full">
-            {pictureTrades.map((trade) => (
-              <Reveal key={trade.id}>
-                <div 
-                  onClick={() => onNavigate("roles")}
-                  className="rounded-3xl bg-white border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between h-full group"
-                >
-                  <div className="relative h-52 overflow-hidden">
-                    <img
-                      src={trade.img}
-                      alt={trade.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                    
-                    <div className="absolute top-3 left-3 w-9 h-9 rounded-xl bg-white/90 backdrop-blur-md flex items-center justify-center text-gray-900 shadow-sm">
-                      <trade.icon className="w-5 h-5 text-[#0066FF]" />
-                    </div>
-
-                    <div className="absolute bottom-3 left-3 right-3 text-white">
-                      <h4 className="font-bold text-sm text-white leading-tight">{trade.title}</h4>
-                      <p className="text-[11px] text-gray-300 mt-0.5">{trade.badge}</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3.5 bg-white border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#0066FF] group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
-                    <span>Deploy Crew</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <IndustryReel onNavigate={onNavigate} />
 
 
       {/* ═══════════════════════════════════════════════════════════════

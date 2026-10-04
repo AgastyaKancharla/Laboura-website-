@@ -451,6 +451,28 @@ h1, h2, h3, h4, h5, h6 {
   color: #0A1628;
 }
 
+/* ── Industry Reel ── */
+@keyframes kenBurns {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.16); }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes reelProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.animate-reel-progress {
+  transform-origin: left;
+  animation-name: reelProgress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
@@ -463,7 +485,9 @@ h1, h2, h3, h4, h5, h6 {
   .animate-aura,
   .animate-pulse-beacon,
   .animate-ripple,
-  .animate-text-reveal {
+  .animate-text-reveal,
+  .animate-ken-burns,
+  .animate-reel-progress {
     animation: none !important;
   }
 
